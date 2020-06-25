@@ -1,0 +1,12 @@
+{
+    "label": "Linear Harmonic Oscillator",
+    "start": -10,
+    "stop": 10,
+    "num_states": 1,
+    "num_dimensions": 1,
+    "num_samples": 100,
+    "num_iterations": 5,
+    "plot_with_potential": true,
+    "plot_scale": 30.0,
+    "colourmap": "autumn"
+}

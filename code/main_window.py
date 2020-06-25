@@ -144,4 +144,4 @@ class MainWindow(QtWidgets.QMainWindow):
 
     def refresh_button(self):
         #TODO threading
-        self.graph_widget.display(0,0)
+        self.graph_widget.display()

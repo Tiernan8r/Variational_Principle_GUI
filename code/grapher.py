@@ -37,6 +37,6 @@ class EmbeddedGraph(QtWidgets.QWidget):
         parent_layout.addWidget(self)
         self.graph_widget.setLayout(parent_layout)
 
-    def display(self, x, y):
+    def display(self):
         self.axes.plot([0, 1, 2, 3, 4], [10, 1, 20, 3, 40])
         self.figure_canvas.draw()
