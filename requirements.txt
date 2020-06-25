@@ -1,0 +1,5 @@
+matplotlib
+numpy
+PyQt5
+scipy
+-e git+https://github.com/Tiernan8r/Variational-Principle#egg=variational_principle
