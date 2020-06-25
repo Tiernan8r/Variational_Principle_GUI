@@ -3,7 +3,7 @@ import os
 from PyQt5 import QtWidgets, uic
 import variational_principle.json_data as json_data
 import variational_principle.variation_method as vm
-import code.grapher
+import code.grapher as grapher
 
 
 class MainWindow(QtWidgets.QMainWindow):
@@ -70,13 +70,15 @@ class MainWindow(QtWidgets.QMainWindow):
         for button in buttons:
             if button.text() == "Calculate":
                 button.clicked.connect(self.calculate_button)
+            if button.text() == "Refresh":
+                button.clicked.connect(self.refresh_button)
 
     def find_graph_widget(self):
         # Finding the matplotlib enmbed widget:
         all_widgets = self.ui_widget.findChildren(QtWidgets.QWidget)
         for widget in all_widgets:
             if widget.objectName() == "graphsWidget":
-                self.graph_widget = widget
+                self.graph_widget = grapher.EmbeddedGraph(widget)
 
     # TODO abstract these methods somehow?
     def spin_box_update(self, spinBox, key):
@@ -139,3 +141,7 @@ class MainWindow(QtWidgets.QMainWindow):
         print("CALCULATING")
         self.r, self.V, self.all_psi, self.all_E = vm.config_compute(self.json_config)
         print("DONE CALCULATING")
+
+    def refresh_button(self):
+        #TODO threading
+        self.graph_widget.display(0,0)

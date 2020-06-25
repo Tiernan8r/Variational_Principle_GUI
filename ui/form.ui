@@ -18,7 +18,7 @@
     <item row="0" column="0">
      <widget class="QTabWidget" name="tabInput">
       <property name="currentIndex">
-       <number>0</number>
+       <number>1</number>
       </property>
       <widget class="QWidget" name="tab">
        <attribute name="title">
@@ -195,8 +195,14 @@
         <item row="0" column="0" alignment="Qt::AlignVCenter">
          <widget class="QWidget" name="graphsWidget" native="true"/>
         </item>
-        <item row="1" column="0" alignment="Qt::AlignBottom">
+        <item row="1" column="0" alignment="Qt::AlignVCenter">
          <widget class="QScrollArea" name="graphsScrollArea">
+          <property name="minimumSize">
+           <size>
+            <width>0</width>
+            <height>150</height>
+           </size>
+          </property>
           <property name="widgetResizable">
            <bool>true</bool>
           </property>
