@@ -4,6 +4,7 @@ from PyQt5 import QtWidgets, uic
 import variational_principle.json_data as json_data
 import variational_principle.variation_method as vm
 import code.grapher as grapher
+import code.data_handler as data_handler
 
 
 class MainWindow(QtWidgets.QMainWindow):
@@ -15,11 +16,14 @@ class MainWindow(QtWidgets.QMainWindow):
 
         self.ui_widget = self.load_ui()
 
+        self.graph_widget = None
+        self.find_graph_widget()
+
         self.widget_dict = {}
         self.setup_signals()
 
-        self.graph_widget = None
-        self.find_graph_widget()
+        self.r, self.V, self.all_psi, self.all_E = None, None, None, None
+        self.populate_list_view()
 
     def load_ui(self):
         path = os.path.join(os.path.dirname(__file__), "../ui/form.ui")
@@ -68,17 +72,20 @@ class MainWindow(QtWidgets.QMainWindow):
 
         buttons = self.ui_widget.findChildren(QtWidgets.QAbstractButton)
         for button in buttons:
-            if button.text() == "Calculate":
+            if button.objectName() == "calculateButton":
                 button.clicked.connect(self.calculate_button)
-            if button.text() == "Refresh":
+            if button.objectName() == "refreshButton":
                 button.clicked.connect(self.refresh_button)
+
+        list_widget = self.ui_widget.findChild(QtWidgets.QListWidget)
+        list_widget.currentItemChanged.connect(self.graph_widget.list_widget_item_change)
 
     def find_graph_widget(self):
         # Finding the matplotlib enmbed widget:
         all_widgets = self.ui_widget.findChildren(QtWidgets.QWidget)
         for widget in all_widgets:
             if widget.objectName() == "graphsWidget":
-                self.graph_widget = grapher.EmbeddedGraph(widget)
+                self.graph_widget = grapher.EmbeddedGraph(widget, self.json_config)
 
     # TODO abstract these methods somehow?
     def spin_box_update(self, spinBox, key):
@@ -136,12 +143,32 @@ class MainWindow(QtWidgets.QMainWindow):
 
         return save_edit
 
+
     def calculate_button(self):
-        #TODO threading
+        # TODO threading
         print("CALCULATING")
         self.r, self.V, self.all_psi, self.all_E = vm.config_compute(self.json_config)
         print("DONE CALCULATING")
+        self.populate_list_view()
+        self.graph_widget.computed_data = data_handler.ComputedData(self.r, self.V, self.all_psi, self.all_E)
+        self.refresh_button()
+
 
     def refresh_button(self):
-        #TODO threading
+        # TODO threading
         self.graph_widget.display()
+
+
+    def populate_list_view(self):
+        list_widget = self.ui_widget.findChild(QtWidgets.QListWidget)
+        list_widget.clear()
+        list_widget.hide()
+        if self.V is not None:
+            list_widget.addItem("potential")
+
+        if self.all_psi is not None:
+            for i in range(len(self.all_psi)):
+                list_widget.addItem("state_{}".format(i))
+
+        if list_widget.count() > 0:
+            list_widget.show()
