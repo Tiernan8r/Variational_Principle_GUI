@@ -1,10 +1,13 @@
 class ComputedData(object):
 
-    def __init__(self, r, V, all_psi, all_E):
+    def __init__(self, r, V, all_psi, all_E, num_dimensions, num_samples):
         self._r = r
         self._V = V
         self._all_psi = all_psi
         self._all_E = all_E
+
+        self._D = num_dimensions
+        self._N = num_samples
 
         self._array_dict = {}
         self._energy_dict = {}
@@ -27,3 +30,11 @@ class ComputedData(object):
 
     def get_array(self, key):
         return self._array_dict.get(key, None)
+
+    @property
+    def num_dimensions(self):
+        return self._D
+
+    @property
+    def num_samples(self):
+        return self._N

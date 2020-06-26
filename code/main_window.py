@@ -23,7 +23,9 @@ class MainWindow(QtWidgets.QMainWindow):
         self.setup_signals()
 
         self.r, self.V, self.all_psi, self.all_E = None, None, None, None
+
         self.populate_list_view()
+        self.populate_graph_combobox()
 
     def load_ui(self):
         path = os.path.join(os.path.dirname(__file__), "../ui/form.ui")
@@ -79,6 +81,11 @@ class MainWindow(QtWidgets.QMainWindow):
 
         list_widget = self.ui_widget.findChild(QtWidgets.QListWidget)
         list_widget.currentItemChanged.connect(self.graph_widget.list_widget_item_change)
+
+        plot_type_selectors = self.ui_widget.findChildren(QtWidgets.QComboBox)
+        for plot_type_selector in plot_type_selectors:
+            if plot_type_selector.objectName() == "plotTypeBox" or len(plot_type_selectors) == 1:
+                plot_type_selector.activated.connect(self.graph_widget.combo_box_graph_type_changed(plot_type_selector))
 
     def find_graph_widget(self):
         # Finding the matplotlib enmbed widget:
@@ -143,21 +150,25 @@ class MainWindow(QtWidgets.QMainWindow):
 
         return save_edit
 
-
     def calculate_button(self):
         # TODO threading
         print("CALCULATING")
+        # Cache the stuff so that if the file changes, we know the used paramters
+        N = self.json_config.num_samples
+        D = self.json_config.num_dimensions
         self.r, self.V, self.all_psi, self.all_E = vm.config_compute(self.json_config)
         print("DONE CALCULATING")
-        self.populate_list_view()
-        self.graph_widget.computed_data = data_handler.ComputedData(self.r, self.V, self.all_psi, self.all_E)
-        self.refresh_button()
 
+        self.populate_list_view()
+
+        self.graph_widget.computed_data = data_handler.ComputedData(self.r, self.V, self.all_psi, self.all_E, D, N)
+        self.populate_graph_combobox()
+
+        self.refresh_button()
 
     def refresh_button(self):
         # TODO threading
         self.graph_widget.display()
-
 
     def populate_list_view(self):
         list_widget = self.ui_widget.findChild(QtWidgets.QListWidget)
@@ -172,3 +183,35 @@ class MainWindow(QtWidgets.QMainWindow):
 
         if list_widget.count() > 0:
             list_widget.show()
+
+    def populate_graph_combobox(self):
+
+        combo_box = self.ui_widget.findChild(QtWidgets.QComboBox)
+        combo_box.clear()
+        combo_box.hide()
+
+        #TODO logs
+        if self.graph_widget is None:
+            return
+        if self.graph_widget.computed_data is None:
+            return
+        if self.graph_widget.computed_data.num_dimensions is None:
+            return
+
+        D = self.graph_widget.computed_data.num_dimensions
+        if D == 1:
+            combo_box.addItem("Line plot")
+        elif D == 2:
+            combo_box.addItem("Image plot")
+            combo_box.addItem("Wireframe plot")
+            combo_box.addItem("Surface plot")
+        elif D == 3:
+            combo_box.addItem("3D scatter plot")
+        else:
+            #TODO error log?
+            pass
+
+        self.graph_widget.current_plot_index = 0
+        # can only show this as an option if there are choices?, need to remove the hide() above if removing
+        if combo_box.count() > 1:
+            combo_box.show()

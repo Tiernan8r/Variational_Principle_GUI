@@ -35,8 +35,8 @@
             <rect>
              <x>0</x>
              <y>0</y>
-             <width>764</width>
-             <height>444</height>
+             <width>768</width>
+             <height>462</height>
             </rect>
            </property>
            <layout class="QFormLayout" name="formLayout">
@@ -191,102 +191,136 @@
        <attribute name="title">
         <string>Graphs</string>
        </attribute>
-       <layout class="QGridLayout" name="gridLayout_3">
-        <item row="0" column="0" alignment="Qt::AlignVCenter">
-         <widget class="QWidget" name="graphsWidget" native="true"/>
-        </item>
-        <item row="1" column="0" alignment="Qt::AlignVCenter">
-         <widget class="QScrollArea" name="graphsScrollArea">
-          <property name="minimumSize">
-           <size>
-            <width>0</width>
-            <height>150</height>
-           </size>
-          </property>
-          <property name="widgetResizable">
-           <bool>true</bool>
-          </property>
-          <widget class="QWidget" name="tabGraphsForm">
-           <property name="geometry">
-            <rect>
-             <x>0</x>
-             <y>0</y>
-             <width>764</width>
-             <height>146</height>
-            </rect>
+       <layout class="QFormLayout" name="formLayout_2">
+        <item row="0" column="0">
+         <widget class="QListWidget" name="listWidget">
+          <item>
+           <property name="text">
+            <string>placeholder</string>
            </property>
-           <layout class="QFormLayout" name="formLayout_2">
-            <item row="0" column="0">
-             <widget class="QLabel" name="label_label_2">
-              <property name="text">
-               <string>System label:</string>
-              </property>
-             </widget>
-            </item>
-            <item row="1" column="0">
-             <widget class="QLabel" name="plot_with_potential_label">
-              <property name="text">
-               <string>Plot energy eigenstates with potential:</string>
-              </property>
-             </widget>
-            </item>
-            <item row="2" column="0">
-             <widget class="QLabel" name="potential_scale_label">
-              <property name="text">
-               <string>Energy eigenstate scale:</string>
-              </property>
-             </widget>
-            </item>
-            <item row="3" column="0">
-             <widget class="QLabel" name="colourmap_label">
-              <property name="text">
-               <string>Colourmap:</string>
-              </property>
-             </widget>
-            </item>
-            <item row="0" column="1">
-             <widget class="QLineEdit" name="label_2">
-              <property name="text">
-               <string>Linear Harmonic Oscillator</string>
-              </property>
-             </widget>
-            </item>
-            <item row="1" column="1">
-             <widget class="QCheckBox" name="plot_with_potential">
-              <property name="text">
-               <string/>
-              </property>
-             </widget>
-            </item>
-            <item row="2" column="1">
-             <widget class="QDoubleSpinBox" name="potential_scale">
-              <property name="maximum">
-               <double>100.000000000000000</double>
-              </property>
-              <property name="value">
-               <double>30.000000000000000</double>
-              </property>
-             </widget>
-            </item>
-            <item row="3" column="1">
-             <widget class="QLineEdit" name="colourmap">
-              <property name="text">
-               <string>autumn</string>
-              </property>
-             </widget>
-            </item>
-           </layout>
-          </widget>
+          </item>
          </widget>
         </item>
-        <item row="2" column="0" alignment="Qt::AlignRight">
-         <widget class="QPushButton" name="refreshButton">
-          <property name="text">
-           <string>Refresh</string>
-          </property>
+        <item row="0" column="1">
+         <widget class="QWidget" name="widget" native="true">
+          <layout class="QGridLayout" name="gridLayout_3">
+           <item row="2" column="0">
+            <widget class="QScrollArea" name="graphsScrollArea_2">
+             <property name="minimumSize">
+              <size>
+               <width>0</width>
+               <height>0</height>
+              </size>
+             </property>
+             <property name="widgetResizable">
+              <bool>true</bool>
+             </property>
+             <widget class="QWidget" name="tabGraphsForm_2">
+              <property name="geometry">
+               <rect>
+                <x>0</x>
+                <y>0</y>
+                <width>502</width>
+                <height>414</height>
+               </rect>
+              </property>
+              <layout class="QFormLayout" name="formLayout_4">
+               <item row="0" column="0">
+                <widget class="QLabel" name="label_label_3">
+                 <property name="text">
+                  <string>System label:</string>
+                 </property>
+                </widget>
+               </item>
+               <item row="0" column="1">
+                <widget class="QLineEdit" name="label_3">
+                 <property name="text">
+                  <string>Linear Harmonic Oscillator</string>
+                 </property>
+                </widget>
+               </item>
+               <item row="1" column="0">
+                <widget class="QLabel" name="plot_with_potential_label_2">
+                 <property name="text">
+                  <string>Plot energy eigenstates with potential:</string>
+                 </property>
+                </widget>
+               </item>
+               <item row="1" column="1">
+                <widget class="QCheckBox" name="plot_with_potential_2">
+                 <property name="text">
+                  <string/>
+                 </property>
+                </widget>
+               </item>
+               <item row="2" column="0">
+                <widget class="QLabel" name="potential_scale_label_2">
+                 <property name="text">
+                  <string>Energy eigenstate scale:</string>
+                 </property>
+                </widget>
+               </item>
+               <item row="2" column="1">
+                <widget class="QDoubleSpinBox" name="potential_scale_2">
+                 <property name="maximum">
+                  <double>100.000000000000000</double>
+                 </property>
+                 <property name="value">
+                  <double>30.000000000000000</double>
+                 </property>
+                </widget>
+               </item>
+               <item row="3" column="0">
+                <widget class="QLabel" name="colourmap_label_2">
+                 <property name="text">
+                  <string>Colourmap:</string>
+                 </property>
+                </widget>
+               </item>
+               <item row="3" column="1">
+                <widget class="QLineEdit" name="colourmap_2">
+                 <property name="text">
+                  <string>autumn</string>
+                 </property>
+                </widget>
+               </item>
+              </layout>
+             </widget>
+            </widget>
+           </item>
+           <item row="3" column="0" alignment="Qt::AlignRight">
+            <widget class="QPushButton" name="refreshButton">
+             <property name="text">
+              <string>Refresh</string>
+             </property>
+            </widget>
+           </item>
+           <item row="0" column="0" alignment="Qt::AlignHCenter|Qt::AlignVCenter">
+            <widget class="QWidget" name="graphsWidget" native="true"/>
+           </item>
+           <item row="1" column="0">
+            <widget class="QComboBox" name="comboBox">
+             <item>
+              <property name="text">
+               <string>placeholder</string>
+              </property>
+             </item>
+             <item>
+              <property name="text">
+               <string>placeholder</string>
+              </property>
+             </item>
+            </widget>
+           </item>
+          </layout>
          </widget>
         </item>
        </layout>
+      </widget>
+      <widget class="QWidget" name="tab_4">
+       <attribute name="title">
+        <string>Energy</string>
+       </attribute>
       </widget>
       <widget class="QWidget" name="tab_3">
        <attribute name="title">
@@ -303,8 +337,8 @@
             <rect>
              <x>0</x>
              <y>0</y>
-             <width>764</width>
-             <height>484</height>
+             <width>768</width>
+             <height>490</height>
             </rect>
            </property>
           </widget>
@@ -322,7 +356,7 @@
      <x>0</x>
      <y>0</y>
      <width>800</width>
-     <height>30</height>
+     <height>27</height>
     </rect>
    </property>
   </widget>
