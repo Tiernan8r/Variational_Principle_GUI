@@ -1,10 +1,13 @@
 import os
+import logging.config
+import json
 
 from PyQt5 import QtWidgets, uic
 import variational_principle.json_data as json_data
 import variational_principle.variation_method as vm
 import code.grapher as grapher
 import code.data_handler as data_handler
+import code.logging as log
 
 
 class MainWindow(QtWidgets.QMainWindow):
@@ -12,9 +15,13 @@ class MainWindow(QtWidgets.QMainWindow):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
 
-        self.json_config = json_data.JsonData()
-
         self.ui_widget = self.load_ui()
+
+        self.logger = None
+        self.load_logging_widget()
+        logging.config.dictConfig(json.load(open("logging.json", "r")))
+
+        self.json_config = json_data.JsonData()
 
         self.graph_widget = None
         self.find_graph_widget()
@@ -32,7 +39,10 @@ class MainWindow(QtWidgets.QMainWindow):
         ui = uic.loadUi(path, self)
         return ui
 
-    # TODO: setup logging
+    # TODO: fix stuttering from logging? probably from ui updates.
+    def load_logging_widget(self):
+        logger_text_box = self.ui_widget.findChild(QtWidgets.QPlainTextEdit)
+        self.logger = log.Logger(logger_text_box)
 
     def setup_signals(self):
         lineEdits = self.ui_widget.findChildren(QtWidgets.QLineEdit)
@@ -152,12 +162,10 @@ class MainWindow(QtWidgets.QMainWindow):
 
     def calculate_button(self):
         # TODO threading
-        print("CALCULATING")
         # Cache the stuff so that if the file changes, we know the used paramters
         N = self.json_config.num_samples
         D = self.json_config.num_dimensions
         self.r, self.V, self.all_psi, self.all_E = vm.config_compute(self.json_config)
-        print("DONE CALCULATING")
 
         self.populate_list_view()
 
