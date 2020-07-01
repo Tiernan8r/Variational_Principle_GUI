@@ -18,7 +18,7 @@
     <item row="0" column="0">
      <widget class="QTabWidget" name="tabInput">
       <property name="currentIndex">
-       <number>1</number>
+       <number>0</number>
       </property>
       <widget class="QWidget" name="tab">
        <attribute name="title">
@@ -36,7 +36,7 @@
              <x>0</x>
              <y>0</y>
              <width>768</width>
-             <height>462</height>
+             <height>433</height>
             </rect>
            </property>
            <layout class="QFormLayout" name="formLayout">
@@ -178,10 +178,23 @@
           </widget>
          </widget>
         </item>
-        <item row="1" column="0" alignment="Qt::AlignRight">
+        <item row="2" column="0" alignment="Qt::AlignRight">
          <widget class="QPushButton" name="calculateButton">
           <property name="text">
            <string>Calculate</string>
+          </property>
+         </widget>
+        </item>
+        <item row="1" column="0">
+         <widget class="QProgressBar" name="calculationProgress">
+          <property name="value">
+           <number>24</number>
+          </property>
+          <property name="textVisible">
+           <bool>true</bool>
+          </property>
+          <property name="format">
+           <string>calculating...</string>
           </property>
          </widget>
         </item>
@@ -204,6 +217,15 @@
         <item row="0" column="1">
          <widget class="QWidget" name="widget" native="true">
           <layout class="QGridLayout" name="gridLayout_3">
+           <item row="1" column="0">
+            <widget class="QComboBox" name="plotTypeBox">
+             <item>
+              <property name="text">
+               <string>placeholder</string>
+              </property>
+             </item>
+            </widget>
+           </item>
            <item row="2" column="0">
             <widget class="QScrollArea" name="graphsScrollArea_2">
              <property name="minimumSize">
@@ -221,7 +243,7 @@
                 <x>0</x>
                 <y>0</y>
                 <width>502</width>
-                <height>414</height>
+                <height>385</height>
                </rect>
               </property>
               <layout class="QFormLayout" name="formLayout_4">
@@ -288,28 +310,24 @@
              </widget>
             </widget>
            </item>
-           <item row="3" column="0" alignment="Qt::AlignRight">
+           <item row="0" column="0" alignment="Qt::AlignHCenter|Qt::AlignVCenter">
+            <widget class="QWidget" name="graphsWidget" native="true"/>
+           </item>
+           <item row="4" column="0" alignment="Qt::AlignRight">
             <widget class="QPushButton" name="refreshButton">
              <property name="text">
               <string>Refresh</string>
              </property>
             </widget>
            </item>
-           <item row="0" column="0" alignment="Qt::AlignHCenter|Qt::AlignVCenter">
-            <widget class="QWidget" name="graphsWidget" native="true"/>
-           </item>
-           <item row="1" column="0">
-            <widget class="QComboBox" name="comboBox">
-             <item>
-              <property name="text">
-               <string>placeholder</string>
-              </property>
-             </item>
-             <item>
-              <property name="text">
-               <string>placeholder</string>
-              </property>
-             </item>
+           <item row="3" column="0">
+            <widget class="QProgressBar" name="calculationProgressBar">
+             <property name="value">
+              <number>24</number>
+             </property>
+             <property name="format">
+              <string>calculating...</string>
+             </property>
             </widget>
            </item>
           </layout>
@@ -328,21 +346,7 @@
        </attribute>
        <layout class="QGridLayout" name="gridLayout_4">
         <item row="0" column="0">
-         <widget class="QScrollArea" name="logsScrollArea">
-          <property name="widgetResizable">
-           <bool>true</bool>
-          </property>
-          <widget class="QWidget" name="scrollAreaWidgetContents_3">
-           <property name="geometry">
-            <rect>
-             <x>0</x>
-             <y>0</y>
-             <width>768</width>
-             <height>490</height>
-            </rect>
-           </property>
-          </widget>
-         </widget>
+         <widget class="QPlainTextEdit" name="plainTextEdit"/>
         </item>
        </layout>
       </widget>

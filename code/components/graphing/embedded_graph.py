@@ -1,29 +1,27 @@
 import matplotlib
-matplotlib.use('Qt5Agg')
 
-import variational_principle.json_data
-import code.data_handler as data_handler
+matplotlib.use('Qt5Agg')
 
 from PyQt5 import QtWidgets
 from matplotlib.pyplot import cm
-
 from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg as FigureCanvas, \
     NavigationToolbar2QT as NavigationToolbar
 from matplotlib.figure import Figure
-
+import logging
+from code.components.graphing.list_entry import ListEntry
 
 
 class EmbeddedGraph(QtWidgets.QWidget):
 
-    def __init__(self, graph_widget, json_data, computed_data=None):
+    def __init__(self, graph_widget, computed_data):
         super().__init__(parent=graph_widget)
+        self.logger = logging.getLogger(__name__)
 
         self.graph_widget = graph_widget
-        self.json_data = json_data
         self.computed_data = computed_data
 
-        self.current_item = "potential"
         self.current_plot_index = 0
+        self.current_list_entry = None
 
         self._setup_canvas()
         self._setup_layouts()
@@ -48,65 +46,88 @@ class EmbeddedGraph(QtWidgets.QWidget):
 
         self.graph_widget.setLayout(graph_layout)
 
-    def display(self, name=None, plot_number=-1):
+    def reset(self):
+        self.current_plot_index = 0
+        self.current_list_entry = None
 
-        #TODO logging?
-        if name is None:
-            name = self.current_item
+    def display(self, list_entry: ListEntry = None, plot_number=-1):
+
+        if list_entry is None:
+            self.logger.warning("Attempted to plot with None data given, using previous value instead.")
+            if self.current_list_entry is not None:
+                list_entry = self.current_list_entry
+            else:
+                self.logger.warning("Couldn't find previous list entry, returning.")
+                return
+        self.current_list_entry = list_entry
 
         if self.computed_data is None:
+            self.logger.warning("The ComputedData object is None!")
             return
+
+        key = list_entry.key
+        if key == self.computed_data.r_key:
+            self.computed_data.r = list_entry.value
+            self.logger.debug("Given position array, storing it.")
+            return
+        if key == self.computed_data.v_key:
+            self.logger.debug("Given potential array, storing for future reference.")
+            self.computed_data.V = list_entry.value
 
         # TODO remove hardcoding of total number of plot options?
         if plot_number < 0:
             plot_number = self.current_plot_index
         elif plot_number > 2:
             plot_number = 2
+        self.current_plot_index = plot_number
 
         self.figure.clear(keep_observers=True)
         self.axes = self.figure.add_subplot()
 
-        psi = self.computed_data.get_array(name)
+        if self.computed_data.r is None:
+            self.logger.warning("Attempted to plot graph when position vector not given, returning.")
+            return
+
+        psi = list_entry.value
 
         if psi is None:
-            #TODO error
+            self.logger.warning("Cannot display, psi is None!")
             return
-        self.current_item = name
+        self.current_item = key
 
-        V = self.computed_data.get_array("potential")
-        r = self.computed_data.get_array("position")
-        if V is None or r is None:
-            # TODO error
+        r, V = self.computed_data.r, self.computed_data.V
+        if r is None or V is None:
+            self.logger.warning("Cannot display, V or r is None!")
             return
 
         self.axes.clear()
 
-        title = "Plot of {} of the {}:".format(name, self.json_data.label)
+        title = "Plot of {} of the {}:".format(key, self.computed_data.label)
         xlabel, ylabel, zlabel = "$x$", "$y$", "$z$"
+
 
         D = self.computed_data.num_dimensions
         if D == 1:
 
-            legend = [name]
+            legend = [key]
 
             psi_scale = 1
             ylabel = "$\psi$"
 
-            if self.json_data.plot_with_potential and name != "potential":
+            if self.computed_data.plot_with_potential and key != "potential":
                 self.axes.plot(r[0], V)
 
-                psi_scale = self.json_data.plot_scale
+                psi_scale = self.computed_data.plot_scale
                 ylabel = "$V$"
 
                 legend.insert(0, "potential")
 
-            # self.axes.plot(r[0], all_psi[0] * psi_scale)
             self._plot_line(r[0], psi * psi_scale, title, xlabel, ylabel, legend)
 
         elif D == 2:
 
             zlabel = "$\psi$"
-            if name == "potential":
+            if key == "potential":
                 zlabel = "$V$"
 
             if plot_number == 0:
@@ -119,7 +140,7 @@ class EmbeddedGraph(QtWidgets.QWidget):
         elif D == 3:
             self._plot_3D_scatter(*r, psi, title, xlabel, ylabel, zlabel)
         else:
-            #TODO implement
+            self.logger.warning("Attempt to call plotting for over 3 dimensions, not implemented.")
             pass
 
         self.figure_canvas.draw()
@@ -134,7 +155,7 @@ class EmbeddedGraph(QtWidgets.QWidget):
     def _plot_image(self, x, y, z, title, xlabel, ylabel):
 
         # TODO overhaul colour bar selection either through a dropdown list or use some check
-        colour_map = self.json_data.colourmap
+        colour_map = self.computed_data.colourmap
         cmap = cm.get_cmap(colour_map)
         cf = self.axes.contourf(x, y, z, cmap=cmap)
         self.colourbar = self.figure.colorbar(cf)
@@ -157,7 +178,7 @@ class EmbeddedGraph(QtWidgets.QWidget):
     # A method to plot the 2D system as a surface plot.
     def _plot_surface(self, x, y, z, title, xlabel, ylabel, zlabel):
 
-        colour_map = self.json_data.colourmap
+        colour_map = self.computed_data.colourmap
         cmap = cm.get_cmap(colour_map)
 
         fig = self.figure
@@ -173,7 +194,7 @@ class EmbeddedGraph(QtWidgets.QWidget):
     # A method to plot the 3d system as a 3D scatter plot.
     def _plot_3D_scatter(self, x, y, z, vals, title, xlabel, ylabel, zlabel):
 
-        colour_map = self.json_data.colourmap
+        colour_map = self.computed_data.colourmap
 
         fig = self.figure
         ax = fig.gca(projection='3d')
@@ -186,26 +207,4 @@ class EmbeddedGraph(QtWidgets.QWidget):
         ax.set_ylabel(ylabel)
         ax.set_zlabel(zlabel)
         # plt.show()
-
-    def list_widget_item_change(self, to_item, from_item):
-        if to_item is None:
-            #TODO error log
-            return
-
-        if self.computed_data is None:
-            #TODO error
-            return
-
-        self.display(to_item.text())
-
-    def combo_box_graph_type_changed(self, combo_box_widget : QtWidgets.QComboBox):
-
-        def change(i):
-            # text = combo_box_widget.currentText()
-            # num_dimensions = self.computed_data.num_dimensions
-            self.display(plot_number=i)
-            self.current_plot_index = i
-
-        return change
-
 
