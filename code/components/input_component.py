@@ -1,6 +1,7 @@
 from code.components.abstract_component import AbstractComponent
 from PyQt5 import QtWidgets
 import logging
+from code.checkbox_parser import parse_check_value
 
 
 class InputComponent(AbstractComponent):
@@ -19,8 +20,6 @@ class InputComponent(AbstractComponent):
             key = None
             if lineEdit.displayText() == "Linear Harmonic Oscillator":
                 key = "label"
-            elif lineEdit.displayText() == "autumn":
-                key = "colourmap"
 
             if not key is None:
                 lineEdit.editingFinished.connect(self.line_edit_config(lineEdit, key))
@@ -85,12 +84,7 @@ class InputComponent(AbstractComponent):
 
     def check_box_config(self, checkBox, key):
 
-        checked_bool = self.computed_data.__getattribute__(key)
-        # 0 is unchecked
-        check_value = 0
-        if checked_bool:
-            # 2 is fully checked
-            check_value = 2
+        check_value = parse_check_value(self.computed_data.__getattribute__(key))
         checkBox.setCheckState(check_value)
 
         all_check_boxes = self.widget_dict.get(key, [])
@@ -99,7 +93,7 @@ class InputComponent(AbstractComponent):
 
         def save_edit():
             checked = checkBox.checkState()
-            self.computed_data.__setattr__(key, bool(checked))
+            self.computed_data.__setattr__(key, parse_check_value(checked))
             widgets = self.widget_dict.get(key)
             for w in widgets:
                 w.setCheckState(checked)

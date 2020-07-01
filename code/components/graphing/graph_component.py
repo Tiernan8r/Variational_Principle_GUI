@@ -3,6 +3,8 @@ from PyQt5 import QtWidgets
 import code.components.graphing.embedded_graph as grapher
 from code.components.graphing import list_view
 import logging
+from matplotlib import cm
+from code.checkbox_parser import parse_check_value
 
 
 class GraphComponent(AbstractComponent):
@@ -10,6 +12,7 @@ class GraphComponent(AbstractComponent):
     def __init__(self, main_window, computed_data, *args, **kwargs):
         self.logger = logging.getLogger(__name__)
         self.logger.debug("Initialising GraphComponent object")
+        self.colourmap_selector, self.colourmap_reversor = None, None
         super().__init__(main_window, computed_data, *args, **kwargs)
 
         self.logger.debug("Populating list view of available plots")
@@ -30,16 +33,49 @@ class GraphComponent(AbstractComponent):
         self.logger = logging.getLogger(__name__)
         self.find_graph_widget()
 
-        plot_type_selectors = self.main_window.findChildren(QtWidgets.QComboBox)
-        for plot_type_selector in plot_type_selectors:
-            if plot_type_selector.objectName() == "plotTypeBox" or len(plot_type_selectors) == 1:
-                plot_type_selector.activated.connect(
-                    self.combo_box_graph_type_changed(plot_type_selector))
+        combo_boxes = self.main_window.findChildren(QtWidgets.QComboBox)
+        for combo_box in combo_boxes:
+            if combo_box.objectName() == "plotTypeBox" or len(combo_boxes) == 1:
+                combo_box.activated.connect(
+                    self.combo_box_graph_type_changed(combo_box))
+
+            elif combo_box.objectName() == "colourmapComboBox":
+                self.colourmap_selector = combo_box
+                combo_box.activated.connect(self.colourmap_select)
+
+                for cmap in sorted(cm.cmap_d):
+                    if "_r" in cmap:
+                        continue
+                    else:
+                        combo_box.addItem(cmap)
+
+                default_index = combo_box.findText("autumn")
+                combo_box.setCurrentIndex(default_index)
+
+        check_boxes = self.main_window.findChildren(QtWidgets.QCheckBox)
+        for check_box in check_boxes:
+            if check_box.objectName() == "colourmapCheckBox":
+                self.colourmap_reversor = check_box
+                self.colourmap_reversor.stateChanged.connect(self.colourmap_reversal_toggle)
 
         buttons = self.main_window.findChildren(QtWidgets.QAbstractButton)
         for button in buttons:
             if button.objectName() == "refreshButton":
                 button.clicked.connect(self.refresh_button)
+
+    def colourmap_reversal_toggle(self, state):
+        cmap_index = self.colourmap_selector.currentIndex()
+        self.colourmap_select(cmap_index)
+
+    def colourmap_select(self, index):
+
+        colourmap_name = self.colourmap_selector.itemText(index)
+
+        reversed = parse_check_value(self.colourmap_reversor.checkState())
+        if reversed:
+            colourmap_name += "_r"
+
+        self.computed_data.__setattr__("colourmap", colourmap_name)
 
     def refresh_button(self):
         self.graph_widget.display()

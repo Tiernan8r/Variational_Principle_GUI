@@ -18,7 +18,7 @@
     <item row="0" column="0">
      <widget class="QTabWidget" name="tabInput">
       <property name="currentIndex">
-       <number>0</number>
+       <number>1</number>
       </property>
       <widget class="QWidget" name="tab">
        <attribute name="title">
@@ -39,7 +39,113 @@
              <height>433</height>
             </rect>
            </property>
-           <layout class="QFormLayout" name="formLayout">
+           <layout class="QGridLayout" name="gridLayout_5">
+            <item row="5" column="0">
+             <widget class="QLabel" name="num_dimensions_label">
+              <property name="text">
+               <string>Number of Dimensions:</string>
+              </property>
+             </widget>
+            </item>
+            <item row="4" column="1">
+             <widget class="QSpinBox" name="num_states">
+              <property name="minimum">
+               <number>1</number>
+              </property>
+              <property name="maximum">
+               <number>100</number>
+              </property>
+              <property name="value">
+               <number>2</number>
+              </property>
+             </widget>
+            </item>
+            <item row="0" column="2" alignment="Qt::AlignHCenter">
+             <widget class="QLabel" name="label_2">
+              <property name="toolTip">
+               <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;The name for the quantum system that will appear on the graph titles.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+              </property>
+              <property name="frameShape">
+               <enum>QFrame::NoFrame</enum>
+              </property>
+              <property name="frameShadow">
+               <enum>QFrame::Plain</enum>
+              </property>
+              <property name="midLineWidth">
+               <number>0</number>
+              </property>
+              <property name="text">
+               <string>?</string>
+              </property>
+             </widget>
+            </item>
+            <item row="7" column="0">
+             <widget class="QLabel" name="num_iterations_label">
+              <property name="text">
+               <string>Number of Iterations: (10^x)</string>
+              </property>
+             </widget>
+            </item>
+            <item row="6" column="2" alignment="Qt::AlignHCenter">
+             <widget class="QLabel" name="label_8">
+              <property name="toolTip">
+               <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;The grid is subdivided into the given number of points that are sampled during the calculation. The subdivision is computed across all dimensions, large subdivisions for higher dimensions greatly increases the computation time.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+              </property>
+              <property name="text">
+               <string>?</string>
+              </property>
+             </widget>
+            </item>
+            <item row="7" column="2" alignment="Qt::AlignHCenter">
+             <widget class="QLabel" name="label_9">
+              <property name="toolTip">
+               <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Each calculation is computed by running the given number of iterations, each iteration a random number is generated. More iterations leads to more accuracy at the expense of computation time.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+              </property>
+              <property name="text">
+               <string>?</string>
+              </property>
+             </widget>
+            </item>
+            <item row="4" column="2" alignment="Qt::AlignHCenter">
+             <widget class="QLabel" name="label_6">
+              <property name="toolTip">
+               <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;The number of consecutive energy eigenstates to calculate, starting with the ground state.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+              </property>
+              <property name="text">
+               <string>?</string>
+              </property>
+             </widget>
+            </item>
+            <item row="6" column="1">
+             <widget class="QSpinBox" name="num_samples">
+              <property name="minimum">
+               <number>1</number>
+              </property>
+              <property name="maximum">
+               <number>1000</number>
+              </property>
+              <property name="value">
+               <number>100</number>
+              </property>
+             </widget>
+            </item>
+            <item row="5" column="1">
+             <widget class="QSpinBox" name="num_dimensions">
+              <property name="minimum">
+               <number>1</number>
+              </property>
+              <property name="maximum">
+               <number>3</number>
+              </property>
+             </widget>
+            </item>
+            <item row="6" column="0">
+             <widget class="QLabel" name="num_samples_label">
+              <property name="text">
+               <string>Number of Samples:</string>
+              </property>
+             </widget>
+            </item>
             <item row="0" column="0">
              <widget class="QLabel" name="label_label">
               <property name="text">
@@ -47,14 +153,50 @@
               </property>
              </widget>
             </item>
-            <item row="1" column="0">
-             <widget class="QLabel" name="start_label">
-              <property name="text">
-               <string>Start:</string>
+            <item row="7" column="1">
+             <widget class="QSpinBox" name="num_iterations">
+              <property name="maximum">
+               <number>10</number>
+              </property>
+              <property name="value">
+               <number>5</number>
               </property>
              </widget>
             </item>
-            <item row="1" column="1">
+            <item row="5" column="2" alignment="Qt::AlignHCenter">
+             <widget class="QLabel" name="label_7">
+              <property name="toolTip">
+               <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;The number of dimensions for the system.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+              </property>
+              <property name="text">
+               <string>?</string>
+              </property>
+             </widget>
+            </item>
+            <item row="3" column="2" alignment="Qt::AlignHCenter">
+             <widget class="QLabel" name="label_5">
+              <property name="toolTip">
+               <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;The maximum value for the spatial grid, the grid is a symmetric box across dimensions.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+              </property>
+              <property name="text">
+               <string>?</string>
+              </property>
+             </widget>
+            </item>
+            <item row="3" column="1">
+             <widget class="QDoubleSpinBox" name="stop">
+              <property name="minimum">
+               <double>-100.000000000000000</double>
+              </property>
+              <property name="maximum">
+               <double>100.000000000000000</double>
+              </property>
+              <property name="value">
+               <double>10.000000000000000</double>
+              </property>
+             </widget>
+            </item>
+            <item row="2" column="1">
              <widget class="QDoubleSpinBox" name="start">
               <property name="toolTip">
                <string/>
@@ -74,96 +216,33 @@
              </widget>
             </item>
             <item row="2" column="0">
+             <widget class="QLabel" name="start_label">
+              <property name="text">
+               <string>Start:</string>
+              </property>
+             </widget>
+            </item>
+            <item row="3" column="0">
              <widget class="QLabel" name="stop_label">
               <property name="text">
                <string>Stop:</string>
               </property>
              </widget>
             </item>
-            <item row="2" column="1">
-             <widget class="QDoubleSpinBox" name="stop">
-              <property name="minimum">
-               <double>-100.000000000000000</double>
-              </property>
-              <property name="maximum">
-               <double>100.000000000000000</double>
-              </property>
-              <property name="value">
-               <double>10.000000000000000</double>
-              </property>
-             </widget>
-            </item>
-            <item row="3" column="0">
+            <item row="4" column="0">
              <widget class="QLabel" name="num_states_label">
               <property name="text">
                <string>Number of Energy Eigenstates:</string>
               </property>
              </widget>
             </item>
-            <item row="3" column="1">
-             <widget class="QSpinBox" name="num_states">
-              <property name="minimum">
-               <number>1</number>
+            <item row="2" column="2" alignment="Qt::AlignHCenter">
+             <widget class="QLabel" name="label_4">
+              <property name="toolTip">
+               <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;The minimum value for the spatial grid, the spatial grid is a symmetric box across dimensions.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
               </property>
-              <property name="maximum">
-               <number>100</number>
-              </property>
-              <property name="value">
-               <number>2</number>
-              </property>
-             </widget>
-            </item>
-            <item row="4" column="0">
-             <widget class="QLabel" name="num_dimensions_label">
               <property name="text">
-               <string>Number of Dimensions:</string>
-              </property>
-             </widget>
-            </item>
-            <item row="4" column="1">
-             <widget class="QSpinBox" name="num_dimensions">
-              <property name="minimum">
-               <number>1</number>
-              </property>
-              <property name="maximum">
-               <number>3</number>
-              </property>
-             </widget>
-            </item>
-            <item row="5" column="0">
-             <widget class="QLabel" name="num_samples_label">
-              <property name="text">
-               <string>Number of Samples:</string>
-              </property>
-             </widget>
-            </item>
-            <item row="5" column="1">
-             <widget class="QSpinBox" name="num_samples">
-              <property name="minimum">
-               <number>1</number>
-              </property>
-              <property name="maximum">
-               <number>1000</number>
-              </property>
-              <property name="value">
-               <number>100</number>
-              </property>
-             </widget>
-            </item>
-            <item row="6" column="0">
-             <widget class="QLabel" name="num_iterations_label">
-              <property name="text">
-               <string>Number of Iterations: (10^x)</string>
-              </property>
-             </widget>
-            </item>
-            <item row="6" column="1">
-             <widget class="QSpinBox" name="num_iterations">
-              <property name="maximum">
-               <number>10</number>
-              </property>
-              <property name="value">
-               <number>5</number>
+               <string>?</string>
               </property>
              </widget>
             </item>
@@ -246,11 +325,72 @@
                 <height>385</height>
                </rect>
               </property>
-              <layout class="QFormLayout" name="formLayout_4">
+              <layout class="QGridLayout" name="gridLayout_6">
+               <item row="3" column="1">
+                <widget class="QDoubleSpinBox" name="potential_scale_2">
+                 <property name="maximum">
+                  <double>100.000000000000000</double>
+                 </property>
+                 <property name="value">
+                  <double>30.000000000000000</double>
+                 </property>
+                </widget>
+               </item>
+               <item row="3" column="2" alignment="Qt::AlignHCenter">
+                <widget class="QLabel" name="label_12">
+                 <property name="toolTip">
+                  <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;When plotting the energy eigenstate with the potential in the 1D case, the energy eigenstate may need to be scaled to appear visible beside the potential.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                 </property>
+                 <property name="text">
+                  <string>?</string>
+                 </property>
+                </widget>
+               </item>
+               <item row="2" column="1">
+                <widget class="QCheckBox" name="plot_with_potential_2">
+                 <property name="text">
+                  <string/>
+                 </property>
+                </widget>
+               </item>
+               <item row="2" column="2" alignment="Qt::AlignHCenter">
+                <widget class="QLabel" name="label_11">
+                 <property name="toolTip">
+                  <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;For the 1D system, the generated energy eigenstates can be plotted with the potential on the same graph.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                 </property>
+                 <property name="text">
+                  <string>?</string>
+                 </property>
+                </widget>
+               </item>
+               <item row="0" column="2" alignment="Qt::AlignHCenter">
+                <widget class="QLabel" name="label_10">
+                 <property name="toolTip">
+                  <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;The name for the quantum system that will appear on the graph titles.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                 </property>
+                 <property name="text">
+                  <string>?</string>
+                 </property>
+                </widget>
+               </item>
+               <item row="2" column="0">
+                <widget class="QLabel" name="plot_with_potential_label_2">
+                 <property name="text">
+                  <string>Plot energy eigenstates with potential:</string>
+                 </property>
+                </widget>
+               </item>
                <item row="0" column="0">
                 <widget class="QLabel" name="label_label_3">
                  <property name="text">
                   <string>System label:</string>
+                 </property>
+                </widget>
+               </item>
+               <item row="4" column="0">
+                <widget class="QLabel" name="colourmap_label_2">
+                 <property name="text">
+                  <string>Colourmap:</string>
                  </property>
                 </widget>
                </item>
@@ -261,48 +401,53 @@
                  </property>
                 </widget>
                </item>
-               <item row="1" column="0">
-                <widget class="QLabel" name="plot_with_potential_label_2">
-                 <property name="text">
-                  <string>Plot energy eigenstates with potential:</string>
-                 </property>
-                </widget>
-               </item>
-               <item row="1" column="1">
-                <widget class="QCheckBox" name="plot_with_potential_2">
-                 <property name="text">
-                  <string/>
-                 </property>
-                </widget>
-               </item>
-               <item row="2" column="0">
+               <item row="3" column="0">
                 <widget class="QLabel" name="potential_scale_label_2">
                  <property name="text">
                   <string>Energy eigenstate scale:</string>
                  </property>
                 </widget>
                </item>
-               <item row="2" column="1">
-                <widget class="QDoubleSpinBox" name="potential_scale_2">
-                 <property name="maximum">
-                  <double>100.000000000000000</double>
+               <item row="4" column="2" alignment="Qt::AlignHCenter">
+                <widget class="QLabel" name="label_13">
+                 <property name="toolTip">
+                  <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;In the 2D and 3D case, colour is used to convey depth or difference in value. The colour scheme used can be set.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
                  </property>
-                 <property name="value">
-                  <double>30.000000000000000</double>
+                 <property name="text">
+                  <string>?</string>
                  </property>
                 </widget>
                </item>
-               <item row="3" column="0">
-                <widget class="QLabel" name="colourmap_label_2">
+               <item row="5" column="0">
+                <widget class="QLabel" name="label_14">
                  <property name="text">
-                  <string>Colourmap:</string>
+                  <string>Reverse colourmap</string>
                  </property>
                 </widget>
                </item>
-               <item row="3" column="1">
-                <widget class="QLineEdit" name="colourmap_2">
+               <item row="5" column="1">
+                <widget class="QCheckBox" name="colourmapCheckBox">
                  <property name="text">
-                  <string>autumn</string>
+                  <string/>
+                 </property>
+                </widget>
+               </item>
+               <item row="4" column="1">
+                <widget class="QComboBox" name="colourmapComboBox">
+                 <item>
+                  <property name="text">
+                   <string>autumn</string>
+                  </property>
+                 </item>
+                </widget>
+               </item>
+               <item row="5" column="2" alignment="Qt::AlignHCenter">
+                <widget class="QLabel" name="label_15">
+                 <property name="toolTip">
+                  <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;The transition sequence of the selected colour map can be reversed.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                 </property>
+                 <property name="text">
+                  <string>?</string>
                  </property>
                 </widget>
                </item>

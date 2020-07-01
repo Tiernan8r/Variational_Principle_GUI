@@ -5,8 +5,8 @@
     "num_states": 1,
     "num_dimensions": 2,
     "num_samples": 50,
-    "num_iterations": 5,
-    "plot_with_potential": false,
-    "plot_scale": 30.0,
+    "num_iterations": 1,
+    "plot_with_potential": true,
+    "plot_scale": 29.0,
     "colourmap": "autumn"
 }
