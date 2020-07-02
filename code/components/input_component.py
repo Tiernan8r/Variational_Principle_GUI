@@ -50,36 +50,29 @@ class InputComponent(AbstractComponent):
         for checkBox in checkBoxes:
             if checkBox.objectName() == "plotWithPotentialCheckBox":
                 checkBox.stateChanged.connect(self.check_box_update(checkBox, "plot_with_potential"))
-                # checkBox.setTristate(False)
 
     def _generic_update(self, widget, key, setter: str, getter: str, parser=None, shared_value=False):
 
         # config_reader = self.computed_data.__getattribute__(key)
         file_value = getattr(self.computed_data, key)
         if parser is not None:
-            print("FROM FILE BEFORE:", file_value)
             file_value = parser(file_value)
-        print("FROM FILE: ", file_value)
 
         get_attribute = None
         unparsed_get_attribute = getattr(widget, getter)
         if parser is not None:
-            print("UNPARSED PRESET VALUE:", unparsed_get_attribute())
 
             def parsed_get_attribute():
                 return parser(unparsed_get_attribute())
             get_attribute = parsed_get_attribute
         else:
             get_attribute = unparsed_get_attribute
-        print("PRESET VALUE:", get_attribute())
 
         getattr(widget, setter)(file_value)
         all_widgets = self.input_widgets.get(key, [])
         if widget not in all_widgets:
             all_widgets.append(widget)
         self.input_widgets[key] = all_widgets
-        print("ALL WIDGETS FOR KEY:", key, "ARE:", all_widgets)
-        print()
 
         def save_edit():
             val = get_attribute()
