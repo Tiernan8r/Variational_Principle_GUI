@@ -83,6 +83,7 @@ class ThreadCompute(AbstractComponent):
 
         self.main_window.graph_component.list_view.clear()
         self.main_window.graph_component.graph_widget.reset()
+        self.main_window.graph_component.toggle_widgets_enabled()
 
     # This is on separate process.
     def calculate(self):
@@ -147,7 +148,7 @@ class ThreadCompute(AbstractComponent):
             self.main_window.graph_component.graph_widget.current_list_entry = list_entry
             self.main_window.graph_component.refresh_button()
         # TODO some check to see if it's a new dimension type to improve performance (marginally)
-        self.main_window.graph_component.populate_graph_combobox()
+        # self.main_window.graph_component.populate_graph_combobox()
 
     @QtCore.pyqtSlot(float)
     def new_energy(self, energy):

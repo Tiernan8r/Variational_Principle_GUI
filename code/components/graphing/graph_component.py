@@ -14,13 +14,15 @@ class GraphComponent(AbstractComponent):
         self.logger.debug("Initialising GraphComponent object")
         self.graph_widget = None
         self.colourmap_selector, self.colourmap_reversor = None, None
+        self.plot_with_potential_widget, self.plot_scale_widget = None, None
         super().__init__(main_window, computed_data, *args, **kwargs)
 
         self.logger.debug("Populating list view of available plots")
         self.list_view = list_view.ListView(self.main_window, self.computed_data)
         self.list_view.redisplay_list_view()
         self.logger.debug("Populating combo box of plot types.")
-        self.populate_graph_combobox()
+        self.prev_num_dimensions = -1
+        self.toggle_widgets_enabled()
 
     def find_graph_widget(self):
         self.logger.debug("Finding the widget to embed plots to:")
@@ -49,8 +51,11 @@ class GraphComponent(AbstractComponent):
                         continue
                     else:
                         combo_box.addItem(cmap)
+                old_cmap = self.computed_data.colourmap
+                if old_cmap is None:
+                    old_cmap = "autumn"
 
-                default_index = combo_box.findText(self.computed_data.colourmap)
+                default_index = combo_box.findText(old_cmap)
                 combo_box.setCurrentIndex(default_index)
 
         check_boxes = self.main_window.findChildren(QtWidgets.QCheckBox)
@@ -58,23 +63,37 @@ class GraphComponent(AbstractComponent):
             if check_box.objectName() == "colourmapCheckBox":
                 self.colourmap_reversor = check_box
                 self.colourmap_reversor.stateChanged.connect(self.colourmap_reversal_toggle)
-            # elif check_box.objectName() == "plotWithPotentialCheckBox":
-            #     check_box.stateChanged.connect(self.refresh_button)
+            elif check_box.objectName() == "plotWithPotentialCheckBox":
+                self.plot_with_potential_widget = check_box
 
-        # line_edits = self.main_window.findChildren(QtWidgets.QLineEdit)
-        # for line_edit in line_edits:
-        #     if line_edit.objectName() == "label_3":
-        #         line_edit.editingFinished.connect(self.refresh_button)
+        spin_boxes = self.main_window.findChildren(QtWidgets.QDoubleSpinBox)
+        for spin_box in spin_boxes:
+            if spin_box.objectName() == "potential_scale":
+                self.plot_scale_widget = spin_box
+        # buttons = self.main_window.findChildren(QtWidgets.QAbstractButton)
+        # for button in buttons:
+        #     if button.objectName() == "refreshButton":
+        #         button.clicked.connect(self.refresh_button)
 
-        # spin_boxes = self.main_window.findChildren(QtWidgets.QDoubleSpinBox)
-        # for spin_box in spin_boxes:
-        #     if spin_box.objectName() == "potential_scale":
-        #         spin_box.valueChanged.connect(self.refresh_button)
+    def toggle_widgets_enabled(self):
+        print("TOGGLE")
 
-        buttons = self.main_window.findChildren(QtWidgets.QAbstractButton)
-        for button in buttons:
-            if button.objectName() == "refreshButton":
-                button.clicked.connect(self.refresh_button)
+        num_dimensions = self.computed_data.num_dimensions
+        # if self.prev_num_dimensions < 0:
+        #     self.prev_num_dimensions = num_dimensions
+        if self.prev_num_dimensions == num_dimensions:
+            return
+
+        self.populate_graph_combobox()
+
+        is_one_d = num_dimensions == 1
+
+        self.plot_with_potential_widget.setEnabled(is_one_d)
+        self.plot_scale_widget.setEnabled(is_one_d)
+        self.colourmap_selector.setEnabled(not is_one_d)
+        self.colourmap_reversor.setEnabled(not is_one_d)
+
+        self.prev_num_dimensions = num_dimensions
 
     def colourmap_reversal_toggle(self, state):
         cmap_index = self.colourmap_selector.currentIndex()
@@ -88,8 +107,8 @@ class GraphComponent(AbstractComponent):
         if reversed:
             colourmap_name += "_r"
 
-        self.computed_data.__setattr__("colourmap", colourmap_name)
-        # setattr(self.computed_data, "colourmap", colourmap_name)
+        # self.computed_data.__setattr__("colourmap", colourmap_name)
+        setattr(self.computed_data, "colourmap", colourmap_name)
         self.refresh_button()
 
     def refresh_button(self):
@@ -97,6 +116,12 @@ class GraphComponent(AbstractComponent):
         self.graph_widget.display()
 
     def populate_graph_combobox(self):
+
+        if self.prev_num_dimensions == self.computed_data.num_dimensions:
+            self.logger.debug(
+                "Previous dimension for refresh is equal to the current dimension, refresh will have no effect.")
+            return
+
         combo_box = self.main_window.findChild(QtWidgets.QComboBox)
         if combo_box is None:
             self.logger.warning("Couldn't find QComboBox widget, returning.")
@@ -104,8 +129,8 @@ class GraphComponent(AbstractComponent):
         combo_box.clear()
         combo_box.hide()
 
-        # TODO logs
         if self.computed_data.num_dimensions is None:
+            self.logger.warning("Number of Dimensions is not set in the computed_data object!")
             return
 
         D = self.computed_data.num_dimensions
