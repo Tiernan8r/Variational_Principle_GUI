@@ -93,7 +93,6 @@ class GraphComponent(AbstractComponent):
         self.refresh_button()
 
     def refresh_button(self):
-        print("REFRESH")
         self.populate_graph_combobox()
         self.graph_widget.display()
 

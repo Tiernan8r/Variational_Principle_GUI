@@ -2,7 +2,7 @@ import matplotlib
 
 matplotlib.use('Qt5Agg')
 
-from PyQt5 import QtWidgets
+from PyQt5 import QtWidgets, QtCore
 from matplotlib.pyplot import cm
 from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg as FigureCanvas, \
     NavigationToolbar2QT as NavigationToolbar
@@ -35,12 +35,16 @@ class EmbeddedGraph(QtWidgets.QWidget):
         self.figure_canvas = FigureCanvas(self.figure)
 
         self.toolbar = NavigationToolbar(self.figure_canvas, self)
+        # self.toolbar.setAllowedAreas(QtCore.Qt.AllToolBarAreas)
 
     def _setup_layouts(self):
-        # graph_layout = QtWidgets.QVBoxLayout()
-        graph_layout = QtWidgets.QGridLayout()
+        graph_layout = QtWidgets.QVBoxLayout()
+        # graph_layout = QtWidgets.QGridLayout()
+        # toolbar_layout = QtWidgets.QVBoxLayout()
+
         graph_layout.addWidget(self.toolbar)
         graph_layout.addWidget(self.figure_canvas)
+        # toolbar_layout.addWidget(self.toolbar)
 
         graph_canvas_layout = QtWidgets.QGridLayout()
         self.figure_canvas.setLayout(graph_canvas_layout)

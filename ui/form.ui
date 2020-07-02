@@ -296,7 +296,7 @@
         <item row="0" column="1">
          <widget class="QWidget" name="widget" native="true">
           <layout class="QGridLayout" name="gridLayout_3">
-           <item row="1" column="0">
+           <item row="2" column="0">
             <widget class="QComboBox" name="plotTypeBox">
              <item>
               <property name="text">
@@ -305,7 +305,7 @@
              </item>
             </widget>
            </item>
-           <item row="2" column="0">
+           <item row="4" column="0">
             <widget class="QScrollArea" name="graphsScrollArea_2">
              <property name="minimumSize">
               <size>
@@ -322,7 +322,7 @@
                 <x>0</x>
                 <y>0</y>
                 <width>502</width>
-                <height>397</height>
+                <height>130</height>
                </rect>
               </property>
               <layout class="QGridLayout" name="gridLayout_6">
@@ -461,7 +461,20 @@
              </widget>
             </widget>
            </item>
-           <item row="3" column="0">
+           <item row="1" column="0">
+            <spacer name="verticalSpacer">
+             <property name="orientation">
+              <enum>Qt::Vertical</enum>
+             </property>
+             <property name="sizeHint" stdset="0">
+              <size>
+               <width>20</width>
+               <height>40</height>
+              </size>
+             </property>
+            </spacer>
+           </item>
+           <item row="5" column="0">
             <widget class="QProgressBar" name="calculationProgressBar">
              <property name="value">
               <number>24</number>
@@ -473,6 +486,19 @@
            </item>
            <item row="0" column="0" alignment="Qt::AlignHCenter|Qt::AlignTop">
             <widget class="QGroupBox" name="graphsWidget"/>
+           </item>
+           <item row="3" column="0">
+            <spacer name="verticalSpacer_2">
+             <property name="orientation">
+              <enum>Qt::Vertical</enum>
+             </property>
+             <property name="sizeHint" stdset="0">
+              <size>
+               <width>20</width>
+               <height>40</height>
+              </size>
+             </property>
+            </spacer>
            </item>
           </layout>
          </widget>
