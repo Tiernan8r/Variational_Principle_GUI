@@ -90,6 +90,8 @@ class ThreadCompute(AbstractComponent):
         self.logger.debug("Beginning Variational Principle calculation on separate thread.")
         self.write_pipe.send(self._start_code)
 
+        # TODO catch MemoryError.
+        # TODO handle the allocation of memory by performing a check on the predicted array sizes?
         self.computed_data = vm.compute(self.computed_data, self.write_pipe)
 
         self.write_pipe.send(self._stop_code)
@@ -144,6 +146,8 @@ class ThreadCompute(AbstractComponent):
         if self.main_window.graph_component.graph_widget.current_list_entry is None:
             self.main_window.graph_component.graph_widget.current_list_entry = list_entry
             self.main_window.graph_component.refresh_button()
+        # TODO some check to see if it's a new dimension type to improve performance (marginally)
+        self.main_window.graph_component.populate_graph_combobox()
 
     @QtCore.pyqtSlot(float)
     def new_energy(self, energy):

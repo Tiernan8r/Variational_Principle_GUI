@@ -12,6 +12,7 @@ class GraphComponent(AbstractComponent):
     def __init__(self, main_window, computed_data, *args, **kwargs):
         self.logger = logging.getLogger(__name__)
         self.logger.debug("Initialising GraphComponent object")
+        self.graph_widget = None
         self.colourmap_selector, self.colourmap_reversor = None, None
         super().__init__(main_window, computed_data, *args, **kwargs)
 
@@ -37,7 +38,7 @@ class GraphComponent(AbstractComponent):
         for combo_box in combo_boxes:
             if combo_box.objectName() == "plotTypeBox" or len(combo_boxes) == 1:
                 combo_box.activated.connect(
-                    self.combo_box_graph_type_changed(combo_box))
+                    self.combo_box_graph_type_changed)
 
             elif combo_box.objectName() == "colourmapComboBox":
                 self.colourmap_selector = combo_box
@@ -49,7 +50,7 @@ class GraphComponent(AbstractComponent):
                     else:
                         combo_box.addItem(cmap)
 
-                default_index = combo_box.findText("autumn")
+                default_index = combo_box.findText(self.computed_data.colourmap)
                 combo_box.setCurrentIndex(default_index)
 
         check_boxes = self.main_window.findChildren(QtWidgets.QCheckBox)
@@ -57,6 +58,18 @@ class GraphComponent(AbstractComponent):
             if check_box.objectName() == "colourmapCheckBox":
                 self.colourmap_reversor = check_box
                 self.colourmap_reversor.stateChanged.connect(self.colourmap_reversal_toggle)
+            # elif check_box.objectName() == "plotWithPotentialCheckBox":
+            #     check_box.stateChanged.connect(self.refresh_button)
+
+        # line_edits = self.main_window.findChildren(QtWidgets.QLineEdit)
+        # for line_edit in line_edits:
+        #     if line_edit.objectName() == "label_3":
+        #         line_edit.editingFinished.connect(self.refresh_button)
+
+        # spin_boxes = self.main_window.findChildren(QtWidgets.QDoubleSpinBox)
+        # for spin_box in spin_boxes:
+        #     if spin_box.objectName() == "potential_scale":
+        #         spin_box.valueChanged.connect(self.refresh_button)
 
         buttons = self.main_window.findChildren(QtWidgets.QAbstractButton)
         for button in buttons:
@@ -76,8 +89,12 @@ class GraphComponent(AbstractComponent):
             colourmap_name += "_r"
 
         self.computed_data.__setattr__("colourmap", colourmap_name)
+        # setattr(self.computed_data, "colourmap", colourmap_name)
+        self.refresh_button()
 
     def refresh_button(self):
+        print("REFRESH")
+        self.populate_graph_combobox()
         self.graph_widget.display()
 
     def populate_graph_combobox(self):
@@ -110,10 +127,5 @@ class GraphComponent(AbstractComponent):
         if combo_box.count() > 1:
             combo_box.show()
 
-    def combo_box_graph_type_changed(self, combo_box_widget: QtWidgets.QComboBox):
-
-        def change(i):
-            self.graph_widget.display(plot_number=i)
-            # self.graph_widget.current_plot_index = i
-
-        return change
+    def combo_box_graph_type_changed(self, i):
+        self.graph_widget.display(plot_number=i)

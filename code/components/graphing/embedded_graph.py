@@ -37,7 +37,8 @@ class EmbeddedGraph(QtWidgets.QWidget):
         self.toolbar = NavigationToolbar(self.figure_canvas, self)
 
     def _setup_layouts(self):
-        graph_layout = QtWidgets.QVBoxLayout()
+        # graph_layout = QtWidgets.QVBoxLayout()
+        graph_layout = QtWidgets.QGridLayout()
         graph_layout.addWidget(self.toolbar)
         graph_layout.addWidget(self.figure_canvas)
 

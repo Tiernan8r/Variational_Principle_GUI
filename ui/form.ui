@@ -322,7 +322,7 @@
                 <x>0</x>
                 <y>0</y>
                 <width>502</width>
-                <height>385</height>
+                <height>397</height>
                </rect>
               </property>
               <layout class="QGridLayout" name="gridLayout_6">
@@ -461,16 +461,6 @@
              </widget>
             </widget>
            </item>
-           <item row="0" column="0" alignment="Qt::AlignHCenter|Qt::AlignVCenter">
-            <widget class="QWidget" name="graphsWidget" native="true"/>
-           </item>
-           <item row="4" column="0" alignment="Qt::AlignRight">
-            <widget class="QPushButton" name="refreshButton">
-             <property name="text">
-              <string>Refresh</string>
-             </property>
-            </widget>
-           </item>
            <item row="3" column="0">
             <widget class="QProgressBar" name="calculationProgressBar">
              <property name="value">
@@ -480,6 +470,9 @@
               <string>calculating...</string>
              </property>
             </widget>
+           </item>
+           <item row="0" column="0" alignment="Qt::AlignHCenter|Qt::AlignTop">
+            <widget class="QGroupBox" name="graphsWidget"/>
            </item>
           </layout>
          </widget>

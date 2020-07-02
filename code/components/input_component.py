@@ -21,11 +21,12 @@ class InputComponent(AbstractComponent):
                 key = "label"
 
             if key is not None:
-                lineEdit.editingFinished.connect(self.line_edit_config(lineEdit, key))
+                lineEdit.editingFinished.connect(self.line_edit_config(lineEdit, key, True))
 
         spinBoxes = self.main_window.findChildren((QtWidgets.QSpinBox, QtWidgets.QDoubleSpinBox))
         for spinBox in spinBoxes:
             key = None
+            prompt_refresh=False
 
             val = spinBox.value()
             if val == -10:
@@ -42,16 +43,18 @@ class InputComponent(AbstractComponent):
                 key = "num_iterations"
             elif val == 30:
                 key = "plot_scale"
+                prompt_refresh = True
 
             if key is not None:
-                spinBox.valueChanged.connect(self.spin_box_update(spinBox, key))
+                spinBox.valueChanged.connect(self.spin_box_update(spinBox, key, prompt_refresh))
 
         checkBoxes = self.main_window.findChildren(QtWidgets.QCheckBox)
         for checkBox in checkBoxes:
             if checkBox.objectName() == "plotWithPotentialCheckBox":
-                checkBox.stateChanged.connect(self.check_box_update(checkBox, "plot_with_potential"))
+                checkBox.stateChanged.connect(self.check_box_update(checkBox, "plot_with_potential", True))
 
-    def _generic_update(self, widget, key, setter: str, getter: str, parser=None, shared_value=False):
+    def _generic_update(self, widget, key, setter: str, getter: str, parser=None, shared_value=False,
+                        prompt_refresh=False):
 
         # config_reader = self.computed_data.__getattribute__(key)
         file_value = getattr(self.computed_data, key)
@@ -64,6 +67,7 @@ class InputComponent(AbstractComponent):
 
             def parsed_get_attribute():
                 return parser(unparsed_get_attribute())
+
             get_attribute = parsed_get_attribute
         else:
             get_attribute = unparsed_get_attribute
@@ -82,16 +86,18 @@ class InputComponent(AbstractComponent):
                 if shared_value:
                     getattr(w, setter)(val)
             self.logger.debug("Saved '%s' to config file under key '%s'." % (val, key))
+            if prompt_refresh:
+                self.main_window.graph_component.refresh_button()
 
         return save_edit
 
-    def check_box_update(self, check_box, key):
-        return self._generic_update(check_box, key, "setCheckState", "checkState", parser=parse_check_value)
+    def check_box_update(self, check_box, key, prompt_refresh=False):
+        return self._generic_update(check_box, key, "setCheckState", "checkState", parser=parse_check_value,
+                                    prompt_refresh=prompt_refresh)
 
-    def spin_box_update(self, spinBox, key):
-        return self._generic_update(spinBox, key, "setValue", "value")
+    def spin_box_update(self, spinBox, key, prompt_refresh=False):
+        return self._generic_update(spinBox, key, "setValue", "value", prompt_refresh=prompt_refresh)
 
-    def line_edit_config(self, lineEdit, key):
-        return self._generic_update(lineEdit, key, "setText", "displayText", shared_value=True)
-
-
+    def line_edit_config(self, lineEdit, key, prompt_refresh=False):
+        return self._generic_update(lineEdit, key, "setText", "displayText", shared_value=True,
+                                    prompt_refresh=prompt_refresh)
