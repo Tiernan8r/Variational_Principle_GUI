@@ -7,8 +7,7 @@ from code.checkbox_parser import parse_check_value
 class InputComponent(AbstractComponent):
 
     def __init__(self, main_window, computed_data, *args, **kwargs):
-        # TODO move the dict back to main_window?
-        self.widget_dict = {}
+        self.input_widgets = {}
         self.logger = logging.getLogger(__name__)
         super().__init__(main_window, computed_data, *args, **kwargs)
 
@@ -21,7 +20,7 @@ class InputComponent(AbstractComponent):
             if lineEdit.displayText() == "Linear Harmonic Oscillator":
                 key = "label"
 
-            if not key is None:
+            if key is not None:
                 lineEdit.editingFinished.connect(self.line_edit_config(lineEdit, key))
 
         spinBoxes = self.main_window.findChildren((QtWidgets.QSpinBox, QtWidgets.QDoubleSpinBox))
@@ -47,56 +46,59 @@ class InputComponent(AbstractComponent):
             if key is not None:
                 spinBox.valueChanged.connect(self.spin_box_update(spinBox, key))
 
-        checkBox = self.main_window.findChild(QtWidgets.QCheckBox)
-        checkBox.stateChanged.connect(self.check_box_config(checkBox, "plot_with_potential"))
+        checkBoxes = self.main_window.findChildren(QtWidgets.QCheckBox)
+        for checkBox in checkBoxes:
+            if checkBox.objectName() == "plotWithPotentialCheckBox":
+                checkBox.stateChanged.connect(self.check_box_update(checkBox, "plot_with_potential"))
+                # checkBox.setTristate(False)
 
-    # TODO abstract these methods somehow?
-    def spin_box_update(self, spinBox, key):
-        spinBox.setValue(self.computed_data.__getattribute__(key))
-        all_spin_boxes = self.widget_dict.get(key, [])
-        all_spin_boxes.append(spinBox)
-        self.widget_dict[key] = all_spin_boxes
+    def _generic_update(self, widget, key, setter: str, getter: str, parser=None, shared_value=False):
+
+        # config_reader = self.computed_data.__getattribute__(key)
+        file_value = getattr(self.computed_data, key)
+        if parser is not None:
+            print("FROM FILE BEFORE:", file_value)
+            file_value = parser(file_value)
+        print("FROM FILE: ", file_value)
+
+        get_attribute = None
+        unparsed_get_attribute = getattr(widget, getter)
+        if parser is not None:
+            print("UNPARSED PRESET VALUE:", unparsed_get_attribute())
+
+            def parsed_get_attribute():
+                return parser(unparsed_get_attribute())
+            get_attribute = parsed_get_attribute
+        else:
+            get_attribute = unparsed_get_attribute
+        print("PRESET VALUE:", get_attribute())
+
+        getattr(widget, setter)(file_value)
+        all_widgets = self.input_widgets.get(key, [])
+        if widget not in all_widgets:
+            all_widgets.append(widget)
+        self.input_widgets[key] = all_widgets
+        print("ALL WIDGETS FOR KEY:", key, "ARE:", all_widgets)
+        print()
 
         def save_edit():
-            self.computed_data.__setattr__(key, spinBox.value())
-            widgets = self.widget_dict.get(key)
-            for w in widgets:
-                w.setValue(spinBox.value())
-            self.logger.debug("Saved '%s' to config file under key '%s'." % (spinBox.value(), key))
+            val = get_attribute()
+            setattr(self.computed_data, key, val)
+            all_widgets = self.input_widgets.get(key)
+            for w in all_widgets:
+                if shared_value:
+                    getattr(w, setter)(val)
+            self.logger.debug("Saved '%s' to config file under key '%s'." % (val, key))
 
         return save_edit
+
+    def check_box_update(self, check_box, key):
+        return self._generic_update(check_box, key, "setCheckState", "checkState", parser=parse_check_value)
+
+    def spin_box_update(self, spinBox, key):
+        return self._generic_update(spinBox, key, "setValue", "value")
 
     def line_edit_config(self, lineEdit, key):
+        return self._generic_update(lineEdit, key, "setText", "displayText", shared_value=True)
 
-        lineEdit.setText(self.computed_data.__getattribute__(key))
-        all_line_edits = self.widget_dict.get(key, [])
-        all_line_edits.append(lineEdit)
-        self.widget_dict[key] = all_line_edits
 
-        def save_edit():
-            self.computed_data.__setattr__(key, lineEdit.displayText())
-            widgets = self.widget_dict.get(key)
-            for w in widgets:
-                w.setText(lineEdit.displayText())
-            self.logger.debug("Saved '%s' to config file under key '%s'." % (lineEdit.displayText(), key))
-
-        return save_edit
-
-    def check_box_config(self, checkBox, key):
-
-        check_value = parse_check_value(self.computed_data.__getattribute__(key))
-        checkBox.setCheckState(check_value)
-
-        all_check_boxes = self.widget_dict.get(key, [])
-        all_check_boxes.append(checkBox)
-        self.widget_dict[key] = all_check_boxes
-
-        def save_edit():
-            checked = checkBox.checkState()
-            self.computed_data.__setattr__(key, parse_check_value(checked))
-            widgets = self.widget_dict.get(key)
-            for w in widgets:
-                w.setCheckState(checked)
-            self.logger.debug("Saved '%s' to config file under key '%s'." % (bool(checked), key))
-
-        return save_edit

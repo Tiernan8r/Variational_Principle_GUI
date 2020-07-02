@@ -327,7 +327,7 @@
               </property>
               <layout class="QGridLayout" name="gridLayout_6">
                <item row="3" column="1">
-                <widget class="QDoubleSpinBox" name="potential_scale_2">
+                <widget class="QDoubleSpinBox" name="potential_scale">
                  <property name="maximum">
                   <double>100.000000000000000</double>
                  </property>
@@ -347,9 +347,15 @@
                 </widget>
                </item>
                <item row="2" column="1">
-                <widget class="QCheckBox" name="plot_with_potential_2">
+                <widget class="QCheckBox" name="plotWithPotentialCheckBox">
                  <property name="text">
                   <string/>
+                 </property>
+                 <property name="checked">
+                  <bool>false</bool>
+                 </property>
+                 <property name="tristate">
+                  <bool>false</bool>
                  </property>
                 </widget>
                </item>
@@ -374,7 +380,7 @@
                 </widget>
                </item>
                <item row="2" column="0">
-                <widget class="QLabel" name="plot_with_potential_label_2">
+                <widget class="QLabel" name="plot_with_potential_label">
                  <property name="text">
                   <string>Plot energy eigenstates with potential:</string>
                  </property>
@@ -402,7 +408,7 @@
                 </widget>
                </item>
                <item row="3" column="0">
-                <widget class="QLabel" name="potential_scale_label_2">
+                <widget class="QLabel" name="potential_scale_label">
                  <property name="text">
                   <string>Energy eigenstate scale:</string>
                  </property>
@@ -491,7 +497,7 @@
        </attribute>
        <layout class="QGridLayout" name="gridLayout_4">
         <item row="0" column="0">
-         <widget class="QPlainTextEdit" name="plainTextEdit"/>
+         <widget class="QPlainTextEdit" name="logTextEdit"/>
         </item>
        </layout>
       </widget>

@@ -1,3 +1,4 @@
+from PyQt5.QtCore import Qt
 
 def parse_check_value(input):
 
@@ -6,6 +7,10 @@ def parse_check_value(input):
             return 2
         return 0
     elif type(input) is int:
+        if input == 2:
+            return True
+        return False
+    elif type(input) is Qt.CheckState:
         if input == 2:
             return True
         return False
