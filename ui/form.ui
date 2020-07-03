@@ -18,7 +18,7 @@
     <item row="0" column="0">
      <widget class="QTabWidget" name="tabInput">
       <property name="currentIndex">
-       <number>2</number>
+       <number>1</number>
       </property>
       <widget class="QWidget" name="tab">
        <attribute name="title">
@@ -305,6 +305,16 @@
              </item>
             </widget>
            </item>
+           <item row="3" column="0">
+            <widget class="QProgressBar" name="calculationProgressBar">
+             <property name="value">
+              <number>24</number>
+             </property>
+             <property name="format">
+              <string>calculating...</string>
+             </property>
+            </widget>
+           </item>
            <item row="2" column="0">
             <widget class="QScrollArea" name="graphsScrollArea_2">
              <property name="minimumSize">
@@ -322,7 +332,7 @@
                 <x>0</x>
                 <y>0</y>
                 <width>490</width>
-                <height>378</height>
+                <height>386</height>
                </rect>
               </property>
               <layout class="QGridLayout" name="gridLayout_6">
@@ -461,18 +471,8 @@
              </widget>
             </widget>
            </item>
-           <item row="3" column="0">
-            <widget class="QProgressBar" name="calculationProgressBar">
-             <property name="value">
-              <number>24</number>
-             </property>
-             <property name="format">
-              <string>calculating...</string>
-             </property>
-            </widget>
-           </item>
-           <item row="0" column="0" alignment="Qt::AlignHCenter|Qt::AlignTop">
-            <widget class="QGroupBox" name="graphsWidget"/>
+           <item row="0" column="0">
+            <widget class="QWidget" name="graphsWidget" native="true"/>
            </item>
           </layout>
          </widget>
@@ -483,6 +483,82 @@
        <attribute name="title">
         <string>Energy</string>
        </attribute>
+       <layout class="QGridLayout" name="gridLayout_7">
+        <item row="1" column="0">
+         <widget class="QScrollArea" name="scrollArea">
+          <property name="widgetResizable">
+           <bool>true</bool>
+          </property>
+          <widget class="QWidget" name="scrollAreaWidgetContents_2">
+           <property name="geometry">
+            <rect>
+             <x>0</x>
+             <y>0</y>
+             <width>764</width>
+             <height>237</height>
+            </rect>
+           </property>
+           <layout class="QGridLayout" name="gridLayout_8">
+            <item row="1" column="2">
+             <widget class="QLabel" name="label_19">
+              <property name="text">
+               <string>eV</string>
+              </property>
+             </widget>
+            </item>
+            <item row="0" column="2">
+             <widget class="QLabel" name="label_17">
+              <property name="text">
+               <string>eV</string>
+              </property>
+             </widget>
+            </item>
+            <item row="1" column="0">
+             <widget class="QLabel" name="label_18">
+              <property name="text">
+               <string>state_2:</string>
+              </property>
+             </widget>
+            </item>
+            <item row="0" column="0">
+             <widget class="QLabel" name="label_16">
+              <property name="text">
+               <string>state_0:</string>
+              </property>
+             </widget>
+            </item>
+            <item row="0" column="1" alignment="Qt::AlignHCenter|Qt::AlignVCenter">
+             <widget class="QLCDNumber" name="lcdNumber">
+              <property name="value" stdset="0">
+               <double>0.500000000000000</double>
+              </property>
+             </widget>
+            </item>
+            <item row="1" column="1" alignment="Qt::AlignHCenter|Qt::AlignVCenter">
+             <widget class="QLCDNumber" name="lcdNumber_2"/>
+            </item>
+           </layout>
+          </widget>
+         </widget>
+        </item>
+        <item row="0" column="0">
+         <widget class="QScrollArea" name="scrollArea_2">
+          <property name="widgetResizable">
+           <bool>true</bool>
+          </property>
+          <widget class="QWidget" name="scrollAreaWidgetContents_3">
+           <property name="geometry">
+            <rect>
+             <x>0</x>
+             <y>0</y>
+             <width>764</width>
+             <height>237</height>
+            </rect>
+           </property>
+          </widget>
+         </widget>
+        </item>
+       </layout>
       </widget>
       <widget class="QWidget" name="tab_3">
        <attribute name="title">

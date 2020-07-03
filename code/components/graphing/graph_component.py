@@ -1,6 +1,7 @@
 from code.components.abstract_component import AbstractComponent
 from PyQt5 import QtWidgets
-import code.components.graphing.embedded_graph as grapher
+# import code.components.graphing.embedded_graphs.embedded_graph as grapher
+from code.components.graphing.embedded_graphs.array_graph import ArrayGraph
 from code.components.graphing import list_view
 import logging
 from matplotlib import cm
@@ -29,7 +30,7 @@ class GraphComponent(AbstractComponent):
         all_widgets = self.main_window.findChildren(QtWidgets.QWidget)
         for widget in all_widgets:
             if widget.objectName() == "graphsWidget":
-                self.graph_widget = grapher.EmbeddedGraph(widget, self.computed_data)
+                self.graph_widget = ArrayGraph(widget, self.computed_data)
 
     def setup_signals(self):
 
