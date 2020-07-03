@@ -76,11 +76,8 @@ class GraphComponent(AbstractComponent):
         #         button.clicked.connect(self.refresh_button)
 
     def toggle_widgets_enabled(self):
-        print("TOGGLE")
 
         num_dimensions = self.computed_data.num_dimensions
-        # if self.prev_num_dimensions < 0:
-        #     self.prev_num_dimensions = num_dimensions
         if self.prev_num_dimensions == num_dimensions:
             return
 

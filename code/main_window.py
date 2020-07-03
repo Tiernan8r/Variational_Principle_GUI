@@ -22,8 +22,7 @@ class MainWindow(QtWidgets.QMainWindow):
 
         self.computed_data = ci.ComputationData()
 
-        # self.log_component = log_component.LogComponent(self, self.computed_data)
-        logging.config.dictConfig(json.load(open("data/logging.json", "r")))
+        self.log_component = log_component.LogComponent(self, self.computed_data)
 
         self.graph_component = graph_component.GraphComponent(self, self.computed_data)
 
