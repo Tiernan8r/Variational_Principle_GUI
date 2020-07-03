@@ -1,8 +1,7 @@
 from code.components.abstract_component import AbstractComponent
 from PyQt5 import QtWidgets
-# import code.components.graphing.embedded_graphs.embedded_graph as grapher
-from code.components.graphing.embedded_graphs.array_graph import ArrayGraph
-from code.components.graphing import list_view
+from code.components.embedded_graphs.array_graph import ArrayGraph
+from code.components.graphs_tab import list_view
 import logging
 from matplotlib import cm
 from code.checkbox_parser import parse_check_value

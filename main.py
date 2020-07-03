@@ -5,7 +5,7 @@ import logging
 import logging.config
 import json
 import datetime
-from code.components.logging.standard_out_queue import StandardOutQueue
+from code.components.log_tab.standard_out_queue import StandardOutQueue
 
 
 def setup_loggers():

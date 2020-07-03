@@ -9,6 +9,12 @@ import logging
 
 class ThreadCompute(AbstractComponent):
 
+    stop_calculation = QtCore.pyqtSignal()
+    new_calculation = QtCore.pyqtSignal()
+
+    energy_received = QtCore.pyqtSignal(float)
+    array_received = QtCore.pyqtSignal(str, np.ndarray)
+
     def __init__(self, main_window, computed_data, *args, **kwargs):
         self.logger = logging.getLogger(__name__)
         self.listener_timer, self.computation_listener = None, None
@@ -34,7 +40,8 @@ class ThreadCompute(AbstractComponent):
             progress_bar.hide()
             progress_bar.reset()
 
-        self.setup_listener()
+        self.stop_calculation.connect(self.cancel_calculation)
+        self.new_calculation.connect(self.setup_listener)
 
     def setup_listener(self):
 
@@ -48,13 +55,11 @@ class ThreadCompute(AbstractComponent):
         self.listener_timer.timeout.connect(self.computation_listener.listen)
 
         self.computation_listener.array_received.connect(self.new_array)
+        self.computation_listener.energy_received.connect(self.new_energy)
         self.computation_listener.progress_received.connect(self.calculation_progress)
 
         self.listener_timer.start()
-        # self.computation_listener.moveToThread(self.listener_thread)
-        #
-        # self.listener_thread.started.connect(self.computation_listener.listen)
-        # self.listener_thread.start()
+
         self.logger.debug("Setup listener thread for computed data.")
 
     def setup_calculation(self):
@@ -64,19 +69,21 @@ class ThreadCompute(AbstractComponent):
         self.logger.debug("Cleared old data")
 
         if self.computation_thread is not None:
-            self.logger.debug("Previous calculation thread running, terminating it.")
-            self.computation_thread.terminate()
+            self.stop_calculation.emit()
+            # self.logger.debug("Previous calculation thread running, terminating it.")
+            # self.computation_thread.terminate()
+            #
+            # self.listener_timer.stop()
+            #
+            # # pipes can be broken by termination, so reset them
+            # self.write_pipe.close()
+            # self.read_pipe.close()
+            # self.read_pipe, self.write_pipe = multiprocessing.Pipe(False)
+            # if self.computation_listener is not None:
+            #     self.computation_listener.new_pipe(self.read_pipe)
 
-            self.listener_timer.stop()
-
-            # pipes can be broken by termination, so reset them
-            self.write_pipe.close()
-            self.read_pipe.close()
-            self.read_pipe, self.write_pipe = multiprocessing.Pipe(False)
-            if self.computation_listener is not None:
-                self.computation_listener.new_pipe(self.read_pipe)
-
-            self.listener_timer.start()
+        self.new_calculation.emit()
+        # self.listener_timer.start()
         self.computation_thread = multiprocessing.Process(target=self.calculate)
         self.computation_thread.start()
         self.logger.debug("Started computation thread.")
@@ -84,6 +91,19 @@ class ThreadCompute(AbstractComponent):
         self.main_window.graph_component.list_view.clear()
         self.main_window.graph_component.graph_widget.reset()
         self.main_window.graph_component.toggle_widgets_enabled()
+
+    def cancel_calculation(self):
+        self.logger.debug("Previous calculation thread running, terminating it.")
+        self.computation_thread.terminate()
+
+        self.listener_timer.stop()
+
+        # pipes can be broken by termination, so reset them
+        self.write_pipe.close()
+        self.read_pipe.close()
+        self.read_pipe, self.write_pipe = multiprocessing.Pipe(False)
+        if self.computation_listener is not None:
+            self.computation_listener.new_pipe(self.read_pipe)
 
     # This is on separate process.
     def calculate(self):
@@ -140,6 +160,7 @@ class ThreadCompute(AbstractComponent):
             self.logger.debug("Received array with key '%s', saving the data under V in computed_data." % key)
             self.computed_data.V = value
 
+        # TODO change this implementation to a signal emit.
         self.logger.debug("New array calculated, under key '%s' updating graphs tab" % key)
         list_view = self.main_window.graph_component.list_view
         list_view.add_item(key, value)
@@ -152,8 +173,7 @@ class ThreadCompute(AbstractComponent):
 
     @QtCore.pyqtSlot(float)
     def new_energy(self, energy):
-        # TODO do
-        pass
+        self.energy_received.emit(energy)
 
 
 class ComputationListener(QtCore.QObject):

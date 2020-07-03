@@ -1,7 +1,7 @@
 from code.components.abstract_component import AbstractComponent
 from PyQt5 import QtWidgets, QtCore, Qt
 import logging
-from code.components.logging.standard_out_queue import StandardOutQueue
+from code.components.log_tab.standard_out_queue import StandardOutQueue
 
 
 class LogComponent(AbstractComponent):
