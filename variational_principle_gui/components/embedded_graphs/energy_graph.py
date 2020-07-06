@@ -1,6 +1,6 @@
 import logging
-from code.components.graphs_tab.list_entry import ListEntry
-from code.components.embedded_graphs.embedded_graph import EmbeddedGraph
+from variational_principle_gui.components.graphs_tab.list_entry import ListEntry
+from variational_principle_gui.components.embedded_graphs.embedded_graph import EmbeddedGraph
 
 
 class EnergyGraph(EmbeddedGraph):

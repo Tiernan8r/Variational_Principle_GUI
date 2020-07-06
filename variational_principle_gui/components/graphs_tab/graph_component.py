@@ -1,10 +1,10 @@
-from code.components.abstract_component import AbstractComponent
+from variational_principle_gui.components.abstract_component import AbstractComponent
 from PyQt5 import QtWidgets
-from code.components.embedded_graphs.array_graph import ArrayGraph
-from code.components.graphs_tab import list_view
+from variational_principle_gui.components.embedded_graphs.array_graph import ArrayGraph
+from variational_principle_gui.components.graphs_tab import list_view
 import logging
 from matplotlib import cm
-from code.checkbox_parser import parse_check_value
+from variational_principle_gui.checkbox_parser import parse_check_value
 
 
 class GraphComponent(AbstractComponent):

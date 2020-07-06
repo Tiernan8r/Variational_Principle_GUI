@@ -1,6 +1,6 @@
-import code.components.abstract_component as ac
+import variational_principle_gui.components.abstract_component as ac
 from PyQt5 import QtWidgets, Qt
-from code.components.embedded_graphs.potential_graph import PotentialGraph
+from variational_principle_gui.components.embedded_graphs.potential_graph import PotentialGraph
 import variational_principle.potential_handling.potential as pot
 
 

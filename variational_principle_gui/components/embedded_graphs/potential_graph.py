@@ -1,4 +1,4 @@
-import code.components.embedded_graphs.embedded_graph as eg
+import variational_principle_gui.components.embedded_graphs.embedded_graph as eg
 import variational_principle.variation_method as vm
 import variational_principle.potential_handling.potential as pot
 import logging

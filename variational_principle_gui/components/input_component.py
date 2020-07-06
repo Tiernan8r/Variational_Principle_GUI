@@ -1,7 +1,7 @@
-from code.components.abstract_component import AbstractComponent
+from variational_principle_gui.components.abstract_component import AbstractComponent
 from PyQt5 import QtWidgets
 import logging
-from code.checkbox_parser import parse_check_value
+from variational_principle_gui.checkbox_parser import parse_check_value
 
 
 class InputComponent(AbstractComponent):

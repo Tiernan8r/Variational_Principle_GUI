@@ -1,7 +1,7 @@
 from PyQt5 import QtWidgets
 import logging
-from code.components.abstract_component import AbstractComponent
-from code.components.graphs_tab.list_entry import ListEntry
+from variational_principle_gui.components.abstract_component import AbstractComponent
+from variational_principle_gui.components.graphs_tab.list_entry import ListEntry
 
 
 class ListView(AbstractComponent):

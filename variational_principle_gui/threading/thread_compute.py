@@ -1,6 +1,6 @@
 import variational_principle.variation_method as vm
 
-from code.components.abstract_component import AbstractComponent
+from variational_principle_gui.components.abstract_component import AbstractComponent
 from PyQt5 import QtWidgets, QtCore
 import numpy as np
 import multiprocessing
@@ -136,7 +136,7 @@ class ThreadCompute(AbstractComponent):
                 progress_bar.reset()
                 progress_bar.hide()
         else:
-            self.logger.debug("Received code wasn't a progress code: '%s'?" % message)
+            self.logger.debug("Received variational_principle_gui wasn't a progress variational_principle_gui: '%s'?" % message)
 
     def increment_progress(self):
 
@@ -229,7 +229,7 @@ class ComputationListener(QtCore.QObject):
 
             self.energy_received.emit(energy)
         elif type(data) is str:
-            self.logger.debug("Received status code from pipe.")
+            self.logger.debug("Received status variational_principle_gui from pipe.")
             self.progress_received.emit(data)
         else:
             self.logger.warning("Data read from pipe was neither a tuple or a float!")

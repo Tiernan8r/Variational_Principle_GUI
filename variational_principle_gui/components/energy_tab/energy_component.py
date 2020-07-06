@@ -1,6 +1,6 @@
-from code.components.abstract_component import AbstractComponent
+from variational_principle_gui.components.abstract_component import AbstractComponent
 from PyQt5 import QtWidgets
-from code.components.embedded_graphs.energy_graph import EnergyGraph
+from variational_principle_gui.components.embedded_graphs.energy_graph import EnergyGraph
 import logging
 
 

@@ -6,13 +6,13 @@ import multiprocessing
 
 from PyQt5 import QtWidgets, uic
 
-import code.threading.thread_compute as tc
+import variational_principle_gui.threading.thread_compute as tc
 
-from code.components import input_component
-from code.components.log_tab import log_component
-from code.components.graphs_tab import graph_component
-from code.components.energy_tab import energy_component
-from code.components.potentials_tab import potential_component
+from variational_principle_gui.components import input_component
+from variational_principle_gui.components.log_tab import log_component
+from variational_principle_gui.components.graphs_tab import graph_component
+from variational_principle_gui.components.energy_tab import energy_component
+from variational_principle_gui.components.potentials_tab import potential_component
 
 
 class MainWindow(QtWidgets.QMainWindow):
