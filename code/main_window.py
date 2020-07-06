@@ -12,6 +12,7 @@ from code.components import input_component
 from code.components.log_tab import log_component
 from code.components.graphs_tab import graph_component
 from code.components.energy_tab import energy_component
+from code.components.potentials_tab import potential_component
 
 
 class MainWindow(QtWidgets.QMainWindow):
@@ -26,6 +27,8 @@ class MainWindow(QtWidgets.QMainWindow):
 
         self.input_component = input_component.InputComponent(self, self.computed_data)
         self.thread_compute = tc.ThreadCompute(self, self.computed_data)
+
+        self.potential_component = potential_component.PotentialComponent(self, self.computed_data)
 
         self.graph_component = graph_component.GraphComponent(self, self.computed_data)
         self.energy_component = energy_component.EnergyComponent(self, self.computed_data)

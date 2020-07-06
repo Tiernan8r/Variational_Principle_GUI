@@ -1,7 +1,6 @@
-from PyQt5 import QtWidgets
-from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg as FigureCanvas, \
-    NavigationToolbar2QT as NavigationToolbar
-from matplotlib.figure import Figure
+import matplotlib
+
+matplotlib.use('Qt5Agg')
 import logging
 from code.components.graphs_tab.list_entry import ListEntry
 from code.components.embedded_graphs.embedded_graph import EmbeddedGraph
@@ -12,26 +11,6 @@ class ArrayGraph(EmbeddedGraph):
     def __init__(self, graph_widget, computed_data):
         super().__init__(graph_widget, computed_data)
         self.logger = logging.getLogger(__name__)
-
-    def _setup_canvas(self):
-        self.figure = Figure()
-        self.axes = self.figure.add_subplot()
-
-        self.figure_canvas = FigureCanvas(self.figure)
-
-        self.toolbar = NavigationToolbar(self.figure_canvas, self)
-
-    def _setup_layouts(self):
-
-        parent_layout = QtWidgets.QGridLayout()
-        parent_layout.addWidget(self.toolbar)
-        parent_layout.addWidget(self)
-
-        graph_layout = QtWidgets.QGridLayout()
-        graph_layout.addWidget(self.figure_canvas)
-
-        self.setLayout(graph_layout)
-        self.graph_widget.setLayout(parent_layout)
 
     def display(self, list_entry: ListEntry = None, plot_number=-1):
 

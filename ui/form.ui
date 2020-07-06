@@ -14,11 +14,23 @@
    <string>The Variational Principle</string>
   </property>
   <widget class="QWidget" name="centralwidget">
+   <property name="minimumSize">
+    <size>
+     <width>0</width>
+     <height>0</height>
+    </size>
+   </property>
    <layout class="QGridLayout" name="gridLayout">
     <item row="0" column="0">
      <widget class="QTabWidget" name="tabInput">
+      <property name="maximumSize">
+       <size>
+        <width>16777215</width>
+        <height>16777215</height>
+       </size>
+      </property>
       <property name="currentIndex">
-       <number>2</number>
+       <number>1</number>
       </property>
       <widget class="QWidget" name="tab">
        <attribute name="title">
@@ -43,7 +55,7 @@
              <x>0</x>
              <y>0</y>
              <width>764</width>
-             <height>412</height>
+             <height>442</height>
             </rect>
            </property>
            <layout class="QGridLayout" name="gridLayout_5">
@@ -264,18 +276,41 @@
           </widget>
          </widget>
         </item>
-        <item row="3" column="0">
-         <widget class="QProgressBar" name="calculationProgress">
-          <property name="value">
-           <number>24</number>
-          </property>
-          <property name="textVisible">
-           <bool>true</bool>
-          </property>
-          <property name="format">
-           <string>calculating...</string>
+       </layout>
+      </widget>
+      <widget class="QWidget" name="tab_5">
+       <attribute name="title">
+        <string>Potentials</string>
+       </attribute>
+       <layout class="QFormLayout" name="formLayout">
+        <item row="0" column="0">
+         <widget class="QComboBox" name="potentialsComboBox">
+          <item>
+           <property name="text">
+            <string>placeholder</string>
+           </property>
+          </item>
+         </widget>
+        </item>
+        <item row="0" column="1">
+         <widget class="QComboBox" name="plotTypeBox_2">
+          <item>
+           <property name="text">
+            <string>placeholder</string>
+           </property>
+          </item>
+         </widget>
+        </item>
+        <item row="1" column="0">
+         <widget class="QPlainTextEdit" name="potentialTextEdit">
+          <property name="plainText">
+           <string>placeholder
+</string>
           </property>
          </widget>
+        </item>
+        <item row="1" column="1">
+         <widget class="QWidget" name="potentialGraphWidget" native="true"/>
         </item>
        </layout>
       </widget>
@@ -305,6 +340,9 @@
              </item>
             </widget>
            </item>
+           <item row="0" column="0" alignment="Qt::AlignTop">
+            <widget class="QWidget" name="graphsWidget" native="true"/>
+           </item>
            <item row="2" column="0">
             <widget class="QScrollArea" name="graphsScrollArea_2">
              <property name="minimumSize">
@@ -322,7 +360,7 @@
                 <x>0</x>
                 <y>0</y>
                 <width>490</width>
-                <height>386</height>
+                <height>416</height>
                </rect>
               </property>
               <layout class="QGridLayout" name="gridLayout_6">
@@ -461,19 +499,6 @@
              </widget>
             </widget>
            </item>
-           <item row="0" column="0" alignment="Qt::AlignTop">
-            <widget class="QWidget" name="graphsWidget" native="true"/>
-           </item>
-           <item row="3" column="0">
-            <widget class="QProgressBar" name="calculationProgressBar">
-             <property name="value">
-              <number>24</number>
-             </property>
-             <property name="format">
-              <string>calculating...</string>
-             </property>
-            </widget>
-           </item>
           </layout>
          </widget>
         </item>
@@ -495,7 +520,7 @@
              <x>0</x>
              <y>0</y>
              <width>764</width>
-             <height>436</height>
+             <height>466</height>
             </rect>
            </property>
           </widget>
@@ -503,16 +528,6 @@
         </item>
         <item row="0" column="0">
          <widget class="QWidget" name="energyGraphWidget" native="true"/>
-        </item>
-        <item row="2" column="0">
-         <widget class="QProgressBar" name="energyCalculationProgressBar">
-          <property name="value">
-           <number>0</number>
-          </property>
-          <property name="format">
-           <string>calculating...</string>
-          </property>
-         </widget>
         </item>
        </layout>
       </widget>
@@ -535,17 +550,26 @@
       </widget>
      </widget>
     </item>
+    <item row="1" column="0" alignment="Qt::AlignBottom">
+     <widget class="QProgressBar" name="globalProgressBar">
+      <property name="value">
+       <number>24</number>
+      </property>
+      <property name="orientation">
+       <enum>Qt::Horizontal</enum>
+      </property>
+      <property name="invertedAppearance">
+       <bool>false</bool>
+      </property>
+      <property name="textDirection">
+       <enum>QProgressBar::TopToBottom</enum>
+      </property>
+      <property name="format">
+       <string>calculating....</string>
+      </property>
+     </widget>
+    </item>
    </layout>
-  </widget>
-  <widget class="QMenuBar" name="menubar">
-   <property name="geometry">
-    <rect>
-     <x>0</x>
-     <y>0</y>
-     <width>800</width>
-     <height>30</height>
-    </rect>
-   </property>
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
  </widget>

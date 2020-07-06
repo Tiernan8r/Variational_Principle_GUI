@@ -1,11 +1,12 @@
 import matplotlib
 
 matplotlib.use('Qt5Agg')
-
+from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg as FigureCanvas, \
+    NavigationToolbar2QT as NavigationToolbar
+from matplotlib.figure import Figure
 from PyQt5 import QtWidgets
 from matplotlib.pyplot import cm
 import logging
-from code.components.graphs_tab.list_entry import ListEntry
 
 
 class EmbeddedGraph(QtWidgets.QWidget):
@@ -28,17 +29,27 @@ class EmbeddedGraph(QtWidgets.QWidget):
         self._setup_layouts()
 
     def _setup_canvas(self):
-        pass
+        self.figure = Figure()
+        self.axes = self.figure.add_subplot()
+
+        self.figure_canvas = FigureCanvas(self.figure)
+
+        self.toolbar = NavigationToolbar(self.figure_canvas, self)
 
     def _setup_layouts(self):
-        pass
+        parent_layout = QtWidgets.QGridLayout()
+        parent_layout.addWidget(self.toolbar)
+        parent_layout.addWidget(self)
+
+        graph_layout = QtWidgets.QGridLayout()
+        graph_layout.addWidget(self.figure_canvas)
+
+        self.setLayout(graph_layout)
+        self.graph_widget.setLayout(parent_layout)
 
     def reset(self):
         self.current_plot_index = 0
         self.current_list_entry = None
-
-    def display(self, list_entry: ListEntry = None, plot_number=-1):
-        pass
 
     def _plot_line(self, x, y, title, xlabel, ylabel, legend=None, line_style="-"):
         self.axes.plot(x, y, line_style)

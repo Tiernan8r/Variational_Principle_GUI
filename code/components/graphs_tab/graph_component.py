@@ -119,34 +119,39 @@ class GraphComponent(AbstractComponent):
                 "Previous dimension for refresh is equal to the current dimension, refresh will have no effect.")
             return
 
-        combo_box = self.main_window.findChild(QtWidgets.QComboBox)
-        if combo_box is None:
-            self.logger.warning("Couldn't find QComboBox widget, returning.")
-            return
-        combo_box.clear()
-        combo_box.hide()
+        combo_boxes = self.main_window.findChildren(QtWidgets.QComboBox)
+        for combo_box in combo_boxes:
+            if combo_box is None:
+                self.logger.warning("Couldn't find QComboBox widget, returning.")
+                return
 
-        if self.computed_data.num_dimensions is None:
-            self.logger.warning("Number of Dimensions is not set in the computed_data object!")
-            return
+            if "plotTypeBox" not in combo_box.objectName():
+                continue
 
-        D = self.computed_data.num_dimensions
-        if D == 1:
-            combo_box.addItem("Line plot")
-        elif D == 2:
-            combo_box.addItem("Image plot")
-            combo_box.addItem("Wireframe plot")
-            combo_box.addItem("Surface plot")
-        elif D == 3:
-            combo_box.addItem("3D scatter plot")
-        else:
-            # TODO error log?
-            pass
+            combo_box.clear()
+            combo_box.hide()
 
-        self.graph_widget.current_plot_index = 0
-        # can only show this as an option if there are choices?, need to remove the hide() above if removing
-        if combo_box.count() > 1:
-            combo_box.show()
+            if self.computed_data.num_dimensions is None:
+                self.logger.warning("Number of Dimensions is not set in the computed_data object!")
+                return
+
+            D = self.computed_data.num_dimensions
+            if D == 1:
+                combo_box.addItem("Line plot")
+            elif D == 2:
+                combo_box.addItem("Image plot")
+                combo_box.addItem("Wireframe plot")
+                combo_box.addItem("Surface plot")
+            elif D == 3:
+                combo_box.addItem("3D scatter plot")
+            else:
+                # TODO error log?
+                pass
+
+            self.graph_widget.current_plot_index = 0
+            # can only show this as an option if there are choices?, need to remove the hide() above if removing
+            if combo_box.count() > 1:
+                combo_box.show()
 
     def combo_box_graph_type_changed(self, i):
         self.graph_widget.display(plot_number=i)

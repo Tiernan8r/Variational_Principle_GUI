@@ -56,7 +56,6 @@ class InputComponent(AbstractComponent):
     def _generic_update(self, widget, key, setter: str, getter: str, parser=None, shared_value=False,
                         prompt_refresh=False):
 
-        # config_reader = self.computed_data.__getattribute__(key)
         file_value = getattr(self.computed_data, key)
         if parser is not None:
             file_value = parser(file_value)

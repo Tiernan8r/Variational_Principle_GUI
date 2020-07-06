@@ -1,9 +1,9 @@
 import logging
 from code.components.graphs_tab.list_entry import ListEntry
-from code.components.embedded_graphs.array_graph import ArrayGraph
+from code.components.embedded_graphs.embedded_graph import EmbeddedGraph
 
 
-class EnergyGraph(ArrayGraph):
+class EnergyGraph(EmbeddedGraph):
 
     def __init__(self, graph_widget, computed_data):
         super().__init__(graph_widget, computed_data)
@@ -21,7 +21,7 @@ class EnergyGraph(ArrayGraph):
         self.figure.clear(keep_observers=True)
         self.figure_canvas.draw()
 
-    def display(self, list_entry: ListEntry = None, plot_number=-1):
+    def display(self):
 
         self.figure.clear(keep_observers=True)
         self.axes = self.figure.add_subplot()
