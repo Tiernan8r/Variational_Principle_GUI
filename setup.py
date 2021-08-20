@@ -1,11 +1,21 @@
 from setuptools import setup
 
-setup(name='variational_principle_gui',
+with open("requirements.txt", "r") as req:
+      required=req.read().splitlines()
+
+files = ["data/*"]
+
+setup(
+      name='variational_principle_gui',
       version='1.0',
       description='A Graphical User Interface for the Variational Principle method for computing bound energy eigenstates.',
-      url='https://github.com/Tiernan8r/Variational-Principle-GUI',
+      url='https://github.com/tiernan8r/variational_principle_gui',
       author='Tiernan8r',
       author_email='tiernan8r@pm.me',
       license='MIT',
+      install_requires=required,
+      include_package_data=True,
       packages=['variational_principle_gui'],
-      zip_safe=True)
+      package_data={"variational_principle_gui": files},
+      zip_safe=True,
+)
